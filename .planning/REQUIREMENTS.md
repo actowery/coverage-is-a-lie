@@ -74,9 +74,9 @@
 
 ### Demo Validation
 
-- [ ] **VAL-01**: Full two-act demo runs end-to-end on the recording machine within 24-48 hours of recording without errors
-- [ ] **VAL-02**: All commands in `docs/shot-list.md` are copy-pasteable and produce the documented output
-- [ ] **VAL-03**: Skill's `--replay` mode produces identical output across at least three consecutive runs
+- [x] **VAL-01**: Full two-act demo runs end-to-end on the recording machine within 24-48 hours of recording without errors
+- [x] **VAL-02**: All commands in `docs/shot-list.md` are copy-pasteable and produce the documented output
+- [x] **VAL-03**: Skill's `--replay` mode produces identical output across at least three consecutive runs
 
 ## v2 Requirements
 
@@ -153,9 +153,9 @@ Deferred. Tracked but not in current roadmap.
 | DOC-02 | Phase 5 | Complete |
 | DOC-03 | Phase 5 | Complete |
 | DOC-04 | Phase 5 | Complete |
-| VAL-01 | Phase 6 | Pending |
-| VAL-02 | Phase 6 | Pending |
-| VAL-03 | Phase 6 | Pending |
+| VAL-01 | Phase 6 | Complete |
+| VAL-02 | Phase 6 | Complete |
+| VAL-03 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 45 total

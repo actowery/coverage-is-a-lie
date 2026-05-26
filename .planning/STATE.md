@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-last_updated: "2026-05-26T19:47:59.118Z"
+last_updated: "2026-05-26T19:58:32.748Z"
 last_activity: 2026-05-26
 progress:
   total_phases: 6
-  completed_phases: 5
-  total_plans: 16
-  completed_plans: 16
-  percent: 83
+  completed_phases: 6
+  total_plans: 17
+  completed_plans: 17
+  percent: 100
 ---
 
 # Project State
@@ -62,6 +62,7 @@ Progress: [██████████] 100%
 | Phase 05-comparison-and-narrative P01 | 3 | 2 tasks | 2 files |
 | Phase 05-comparison-and-narrative P02 | 13min | 2 tasks | 4 files |
 | Phase 05 P03 | 3 | 2 tasks | 2 files |
+| Phase 06-end-to-end-validation P01 | 5 | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 - [Phase ?]: Phase 5-01 leap_year divergence
 - [Phase ?]: Used --generate mode for LLM report on demo/fixed-tests: --replay skips anchor mutations whose original lines no longer exist in fixed library
 - [Phase ?]: Feb 29 boundary test must use as_of: Feb 28 (same month as birthday) to expose the normalization bug, not March 1
+- [Phase ?]: Beat 5 drift fix
+- [Phase ?]: Beat 9 LM-WB ID corrected: float division is LM-WB-01 not LM-WB-02
+- [Phase ?]: VAL-03 satisfied: three-run replay pipeline is deterministic (same md5 across all runs)
 
 ### Pending Todos
 
@@ -103,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T19:47:59.114Z
+Last session: 2026-05-26T19:58:32.744Z
 Stopped at: Completed 04-01-PLAN.md
 Resume file: None

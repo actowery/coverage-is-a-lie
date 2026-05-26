@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit (completed 2026-05-26)
 - [x] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting (completed 2026-05-26)
 - [x] **Phase 5: Comparison and Narrative** - Side-by-side comparison, demo branch states, README, shot list, and narration script (completed 2026-05-26)
-- [ ] **Phase 6: End-to-End Validation** - Full two-act demo verified clean on the recording machine
+- [x] **Phase 6: End-to-End Validation** - Full two-act demo verified clean on the recording machine (completed 2026-05-26)
 
 ## Phase Details
 
@@ -103,7 +103,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Every command in `docs/shot-list.md` is copy-pasted verbatim and produces the exact output documented
   3. `/llm-mutate --replay` run three consecutive times produces byte-identical `tmp/llm-mutation-report.md` output
 **Plans**: 1 plan
-  - [ ] 06-01-PLAN.md — Walk 14 shot-list beats, fix drift, verify replay determinism, fresh-clone smoke test
+  - [x] 06-01-PLAN.md — Walk 14 shot-list beats, fix drift, verify replay determinism, fresh-clone smoke test
 
 ## Progress
 
@@ -117,4 +117,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
 | 4. LLM Mutation Skill | 3/3 | Complete   | 2026-05-26 |
 | 5. Comparison and Narrative | 3/3 | Complete   | 2026-05-26 |
-| 6. End-to-End Validation | 0/1 | Not started | - |
+| 6. End-to-End Validation | 1/1 | Complete   | 2026-05-26 |
