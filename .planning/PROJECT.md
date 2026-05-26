@@ -1,5 +1,11 @@
 # Mutation Testing Demo
 
+## Current State
+
+**v1.0 shipped 2026-05-26** — Demo is recording-ready. Public repo at https://github.com/actowery/coverage-is-a-lie. Two-act narrative with 14-beat shot list, mutant baseline (2.31% kill rate against weak tests), `/llm-mutate` skill (0/20 score on weak tests, 13/13 on fixed tests), and demo branches that show the punchline via `git checkout` alone.
+
+**Next milestone:** Start with `/gsd-new-milestone` when ready. SKILL-V2-* features were deferred for v1.0.
+
 ## What This Is
 
 A runnable Ruby demo that proves the AI-era thesis that **100% code coverage is a lie** — green CI and full coverage can hide tests that don't actually verify anything. The demo pairs a small date/time utility library with deliberately weak (but passing) RSpec tests, then uses two mutation-testing approaches to expose the gaps: the traditional `mutant` gem as a baseline, and a custom Claude Code skill that generates LLM-driven mutations in the spirit of Meta's published research. Primary audience is internal Perforce/PE engineering and tech-apt skip-level leadership.

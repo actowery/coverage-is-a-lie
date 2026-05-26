@@ -1,120 +1,17 @@
-# Roadmap: Mutation Testing Demo
+# Roadmap — Mutation Testing Demo
 
-## Overview
+## Current Milestone
 
-Six phases take this project from an empty repo to a recording-ready demo that proves 100% code coverage is a lie. The build order is dependency-constrained: licensing must be resolved before any code is written, the library must exist before tests, tests must exist before either mutation tool, and both tools must produce reports before the side-by-side comparison and narrative artifacts can be assembled. Phase 4 (the LLM skill) carries the highest implementation risk and requires deeper research at planning time. Phase 6 is a hard validation gate — the demo does not leave the repo until it runs cleanly end-to-end on the recording machine.
+*(none — v1.0 shipped 2026-05-26)*
 
-## Phases
+## Shipped Milestones
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+- **v1.0 — Mutation Testing Demo (shipped 2026-05-26)** — Public repo, two-act demo with weak tests, mutant baseline, `/llm-mutate` skill, and recording artifacts. 6 phases / 17 plans / 59 commits. See [`milestones/v1.0-ROADMAP.md`](milestones/v1.0-ROADMAP.md).
 
-Decimal phases appear between their surrounding integers in numeric order.
+## Next Milestone
 
-- [x] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install` (completed 2026-05-26)
-- [x] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions (completed 2026-05-26)
-- [x] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit (completed 2026-05-26)
-- [x] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting (completed 2026-05-26)
-- [x] **Phase 5: Comparison and Narrative** - Side-by-side comparison, demo branch states, README, shot list, and narration script (completed 2026-05-26)
-- [x] **Phase 6: End-to-End Validation** - Full two-act demo verified clean on the recording machine (completed 2026-05-26)
-
-## Phase Details
-
-### Phase 1: Repo Foundation
-**Goal**: The repo is publicly visible on GitHub, correctly licensed for `mutant --usage opensource`, and `bundle install` runs clean from a fresh clone — every subsequent phase can start without a licensing or dependency surprise.
-**Depends on**: Nothing (first phase)
-**Requirements**: REPO-01, REPO-02, REPO-03, REPO-04, REPO-05
-**Success Criteria** (what must be TRUE):
-  1. `git clone` followed by `bundle install` completes without errors on a clean machine
-  2. Repo is public on GitHub and carries an OSS license file
-  3. `.mutant.yml` contains `usage: opensource` and `bundle exec mutant run` does not throw a licensing error
-  4. `.ruby-version` pins a Ruby 3.4.x release and the README quickstart is present
-**Plans**: 4 plans
-  - [x] 01-01-PLAN.md — Wave 0: human-verify Ruby 3.4.x is installed locally (precondition gate)
-  - [x] 01-02-PLAN.md — Wave 1: write the seven Phase 1 source files (LICENSE, README.md, Gemfile, .ruby-version, .mutant.yml, .gitignore, .github/workflows/ci.yml)
-  - [x] 01-03-PLAN.md — Wave 2: run `bundle install` to generate Gemfile.lock and create initial git commit on `main`
-  - [x] 01-04-PLAN.md — Wave 3: create public GitHub repo at `actowery/coverage-is-a-lie`, push, and verify first CI run is green
-
-### Phase 2: Library and Weak Tests
-**Goal**: All six `DateUtils` functions exist with non-trivial branching logic and the RSpec suite achieves 100% line and branch coverage while deliberately omitting boundary cases — the "green but broken" premise of the demo is proven and blind-review confirmed.
-**Depends on**: Phase 1
-**Requirements**: LIB-01, LIB-02, LIB-03, LIB-04, LIB-05, LIB-06, LIB-07, TEST-01, TEST-02, TEST-03, TEST-04, TEST-05, TEST-06
-**Success Criteria** (what must be TRUE):
-  1. `bundle exec rspec` passes green and SimpleCov reports 100% line and branch coverage on the library
-  2. Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
-  3. A reviewer who did not build the library agrees the test suite looks like plausible first-pass coverage (no obvious straw-man tells)
-  4. Every function contains at least one boundary condition (leap-day, negative duration, off-by-one, weekend boundary) that the suite omits
-**Plans**: 3 plans
-  - [x] 02-01-PLAN.md — Wave 1: lib/date_utils.rb (six functions with intentional boundary bugs) + spec/spec_helper.rb + .rspec
-  - [x] 02-02-PLAN.md — Wave 2: spec/date_utils_spec.rb (weak tests, 100% line+branch coverage, boundaries omitted)
-  - [x] 02-03-PLAN.md — Wave 3: Rakefile + CI rspec job + blind-review checkpoint + Phase 2 commit
-
-### Phase 3: mutant Baseline
-**Goal**: `bundle exec mutant run` executes against all six library functions, produces a `tmp/mutant-report.txt` with kill rate and alive-mutation diffs, and a manual equivalence audit labels the meaningful survivors — Act 1 of the demo has its evidence.
-**Depends on**: Phase 2
-**Requirements**: MUT-01, MUT-02, MUT-03, MUT-04, MUT-05
-**Success Criteria** (what must be TRUE):
-  1. `bundle exec mutant run` completes against all six functions without hanging (timeout guard active)
-  2. `tmp/mutant-report.txt` exists, contains kill rate and at least one alive-mutation diff
-  3. SimpleCov does not load during mutant runs (env-guarded)
-  4. Manual equivalence audit is complete — each surviving mutant is labeled as equivalent or meaningful
-**Plans**: 3 plans
-  - [x] 03-01-PLAN.md — Wave 1: add Timeout guard to spec_helper (MUT-03), rake mutant task, README Act 1 section
-  - [x] 03-02-PLAN.md — Wave 2: execute mutant with 600s timeout, capture output to tmp/mutant-report.txt (MUT-01, MUT-02)
-  - [x] 03-03-PLAN.md — Wave 3: classify all surviving mutants, write docs/mutant-audit.md (MUT-05)
-
-### Phase 4: LLM Mutation Skill
-**Goal**: `/llm-mutate --replay` reads a committed fixture and reproduces the canonical demo output identically on any machine; `/llm-mutate --generate` instructs Claude to produce semantically meaningful mutations live in the session, respecting a MAX_MUTATIONS cap — the skill is demo-safe, cost-bounded, and invokable without any API key.
-**Depends on**: Phase 3
-**Requirements**: SKILL-01, SKILL-02, SKILL-03, SKILL-04, SKILL-05, SKILL-06, SKILL-07, SKILL-08, SKILL-09, SKILL-10, SKILL-11
-**Success Criteria** (what must be TRUE):
-  1. `/llm-mutate --replay` produces identical `tmp/llm-mutation-report.md` output across three consecutive runs
-  2. `/llm-mutate --generate` respects the `MAX_MUTATIONS` cap (default 20) and logs estimated token cost using $3/$15-per-MTok Sonnet 4.6 rates
-  3. The report includes at least one mutation with a plain-English description, a diff, and a kill/survive verdict for each of the six library functions
-  4. Non-compilable mutation candidates are rejected via `ruby -c` and their count is logged; they do not appear as survivors
-  5. The skill is invokable as `/llm-mutate` inside a Claude Code session without any manual file editing
-**Plans**: 3 plans
-  - [x] 04-01-PLAN.md — Wave 1: run_mutant_spec.sh kill detector + SKILL.md skeleton + README + .gitignore update
-  - [x] 04-02-PLAN.md — Wave 2: canonical.json fixture (20 mutations, all 6 functions, 6 anchor bugs) + SKILL.md --replay mode
-  - [x] 04-03-PLAN.md — Wave 3: SKILL.md --generate mode + cost estimation + end-to-end replay determinism verification
-
-### Phase 5: Comparison and Narrative
-**Goal**: `docs/comparison.md` maps mutations from both tools to the same six functions; `demo/weak-tests` and `demo/fixed-tests` branches exist with committed report artifacts; the README, shot list, and narration script give a presenter everything needed to record the demo without improvising.
-**Depends on**: Phase 4
-**Requirements**: COMP-01, COMP-02, DEMO-01, DEMO-02, DEMO-03, DOC-01, DOC-02, DOC-03, DOC-04
-**Success Criteria** (what must be TRUE):
-  1. `docs/comparison.md` contains a table covering all six functions with kill/survive verdicts from both tools, and calls out at least three mutations where the two tools diverge with one-sentence explanations
-  2. `git checkout demo/weak-tests` and `git checkout demo/fixed-tests` each land in a self-consistent state with committed report artifacts; no manual file edits required
-  3. README contains clearly-labeled Act 1 / Act 2 sections with the "100% coverage is a lie" and AI-era framing
-  4. `docs/shot-list.md` enumerates every demo beat with terminal commands, expected output, and dual-audience cues
-  5. `docs/narration-script.md` provides recording-ready voice-over text aligned to the shot list
-**Plans**: 3 plans
-  - [x] 05-01-PLAN.md — Wave 1: docs/comparison.md (function-by-function table with 3+ divergences) + README.md two-act narrative + DOC-04 permissions block
-  - [x] 05-02-PLAN.md — Wave 2: demo/weak-tests branch (committed reports) + demo/fixed-tests branch (boundary tests + fixed lib + refreshed reports) + return to main
-  - [x] 05-03-PLAN.md — Wave 3: docs/shot-list.md (14 beats, dual-audience cues) + docs/narration-script.md (recording-ready prose)
-
-### Phase 6: End-to-End Validation
-**Goal**: The full two-act demo runs without errors on the recording machine; every command in the shot list is copy-pasteable and produces the documented output; the repo is ready to hand to a presenter.
-**Depends on**: Phase 5
-**Requirements**: VAL-01, VAL-02, VAL-03
-**Success Criteria** (what must be TRUE):
-  1. The complete two-act demo runs end-to-end on the recording machine within 24-48 hours of recording without any errors or permission prompts
-  2. Every command in `docs/shot-list.md` is copy-pasted verbatim and produces the exact output documented
-  3. `/llm-mutate --replay` run three consecutive times produces byte-identical `tmp/llm-mutation-report.md` output
-**Plans**: 1 plan
-  - [x] 06-01-PLAN.md — Walk 14 shot-list beats, fix drift, verify replay determinism, fresh-clone smoke test
-
-## Progress
-
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
-| 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
-| 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
-| 4. LLM Mutation Skill | 3/3 | Complete   | 2026-05-26 |
-| 5. Comparison and Narrative | 3/3 | Complete   | 2026-05-26 |
-| 6. End-to-End Validation | 1/1 | Complete   | 2026-05-26 |
+Start with `/gsd-new-milestone` when ready. Likely candidates (per REQUIREMENTS.md SKILL-V2-*):
+- Coverage-gap-targeted LLM mutation selection
+- Configurable `--mutations-per-function` CLI flag
+- Optional LLM-driven equivalence detection
+- GitHub Actions CI integration for mutation testing on PRs
