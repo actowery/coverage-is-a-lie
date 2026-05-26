@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install` (completed 2026-05-26)
 - [x] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions (completed 2026-05-26)
 - [x] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit (completed 2026-05-26)
-- [ ] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting
+- [x] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting (completed 2026-05-26)
 - [ ] **Phase 5: Comparison and Narrative** - Side-by-side comparison, demo branch states, README, shot list, and narration script
 - [ ] **Phase 6: End-to-End Validation** - Full two-act demo verified clean on the recording machine
 
@@ -77,7 +77,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
   - [x] 04-01-PLAN.md — Wave 1: run_mutant_spec.sh kill detector + SKILL.md skeleton + README + .gitignore update
   - [x] 04-02-PLAN.md — Wave 2: canonical.json fixture (20 mutations, all 6 functions, 6 anchor bugs) + SKILL.md --replay mode
-  - [ ] 04-03-PLAN.md — Wave 3: SKILL.md --generate mode + cost estimation + end-to-end replay determinism verification
+  - [x] 04-03-PLAN.md — Wave 3: SKILL.md --generate mode + cost estimation + end-to-end replay determinism verification
 
 ### Phase 5: Comparison and Narrative
 **Goal**: `docs/comparison.md` maps mutations from both tools to the same six functions; `demo/weak-tests` and `demo/fixed-tests` branches exist with committed report artifacts; the README, shot list, and narration script give a presenter everything needed to record the demo without improvising.
@@ -111,6 +111,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
 | 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
 | 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
-| 4. LLM Mutation Skill | 2/3 | In Progress|  |
+| 4. LLM Mutation Skill | 3/3 | Complete   | 2026-05-26 |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |
 | 6. End-to-End Validation | 0/TBD | Not started | - |
