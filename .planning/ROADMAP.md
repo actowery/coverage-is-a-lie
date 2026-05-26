@@ -59,7 +59,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `tmp/mutant-report.txt` exists, contains kill rate and at least one alive-mutation diff
   3. SimpleCov does not load during mutant runs (env-guarded)
   4. Manual equivalence audit is complete — each surviving mutant is labeled as equivalent or meaningful
-**Plans**: TBD
+**Plans**: 3 plans
+  - [x] 03-01-PLAN.md — Wave 1: add Timeout guard to spec_helper (MUT-03), rake mutant task, README Act 1 section
+  - [ ] 03-02-PLAN.md — Wave 2: execute mutant with 600s timeout, capture output to tmp/mutant-report.txt (MUT-01, MUT-02)
+  - [ ] 03-03-PLAN.md — Wave 3: classify all surviving mutants, write docs/mutant-audit.md (MUT-05)
 
 ### Phase 4: LLM Mutation Skill
 **Goal**: `/llm-mutate --generate` calls the Anthropic API and produces semantically meaningful mutations with plain-English descriptions; `/llm-mutate --replay` reads a committed fixture and reproduces the canonical demo output identically on any machine — the skill is demo-safe and cost-bounded.
@@ -105,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
 | 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
-| 3. mutant Baseline | 0/TBD | Not started | - |
+| 3. mutant Baseline | 1/3 | In Progress|  |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |
 | 6. End-to-End Validation | 0/TBD | Not started | - |

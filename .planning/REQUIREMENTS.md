@@ -36,8 +36,8 @@
 
 - [ ] **MUT-01**: `bundle exec mutant run` executes against all six library functions
 - [ ] **MUT-02**: Run produces `tmp/mutant-report.txt` capturing kill rate and alive-mutation diffs
-- [ ] **MUT-03**: `spec_helper` includes a `Timeout.timeout(5)` guard so infinite-loop mutations don't hang the suite
-- [ ] **MUT-04**: SimpleCov does not load during mutant runs (env-guarded)
+- [x] **MUT-03**: `spec_helper` includes a `Timeout.timeout(5)` guard so infinite-loop mutations don't hang the suite
+- [x] **MUT-04**: SimpleCov does not load during mutant runs (env-guarded)
 - [ ] **MUT-05**: Manual equivalence audit performed on top survivors; equivalent mutants labeled in report notes
 
 ### LLM Mutation Skill (`/llm-mutate`)
@@ -130,8 +130,8 @@ Deferred. Tracked but not in current roadmap.
 | TEST-06 | Phase 2 | Complete |
 | MUT-01 | Phase 3 | Pending |
 | MUT-02 | Phase 3 | Pending |
-| MUT-03 | Phase 3 | Pending |
-| MUT-04 | Phase 3 | Pending |
+| MUT-03 | Phase 3 | Complete |
+| MUT-04 | Phase 3 | Complete |
 | MUT-05 | Phase 3 | Pending |
 | SKILL-01 | Phase 4 | Pending |
 | SKILL-02 | Phase 4 | Pending |
