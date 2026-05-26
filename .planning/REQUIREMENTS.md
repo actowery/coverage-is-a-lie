@@ -7,11 +7,11 @@
 
 ### Repo Foundation
 
-- [ ] **REPO-01**: Repo is public on GitHub with an OSS license file present, so `mutant` can run under `--usage opensource`
-- [ ] **REPO-02**: `.ruby-version` pinned to a stable Ruby 3.4.x release
-- [ ] **REPO-03**: Gemfile declares locked versions for rspec, simplecov, mutant, and mutant-rspec; `bundle install` runs clean (no `anthropic` SDK — the LLM skill runs inside Claude Code, not as Ruby code)
-- [ ] **REPO-04**: `.mutant.yml` contains explicit `usage: opensource` key
-- [ ] **REPO-05**: README quickstart shows clone → bundle install → run-the-demo flow
+- [x] **REPO-01**: Repo is public on GitHub with an OSS license file present, so `mutant` can run under `--usage opensource`
+- [x] **REPO-02**: `.ruby-version` pinned to a stable Ruby 3.4.x release
+- [x] **REPO-03**: Gemfile declares locked versions for rspec, simplecov, mutant, and mutant-rspec; `bundle install` runs clean (no `anthropic` SDK — the LLM skill runs inside Claude Code, not as Ruby code)
+- [x] **REPO-04**: `.mutant.yml` contains explicit `usage: opensource` key
+- [x] **REPO-05**: README quickstart shows clone → bundle install → run-the-demo flow
 
 ### Date/Time Library (`DateUtils`)
 
@@ -110,11 +110,11 @@ Deferred. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REPO-01 | Phase 1 | Pending |
-| REPO-02 | Phase 1 | Pending |
-| REPO-03 | Phase 1 | Pending |
-| REPO-04 | Phase 1 | Pending |
-| REPO-05 | Phase 1 | Pending |
+| REPO-01 | Phase 1 | Complete |
+| REPO-02 | Phase 1 | Complete |
+| REPO-03 | Phase 1 | Complete |
+| REPO-04 | Phase 1 | Complete |
+| REPO-05 | Phase 1 | Complete |
 | LIB-01 | Phase 2 | Pending |
 | LIB-02 | Phase 2 | Pending |
 | LIB-03 | Phase 2 | Pending |
