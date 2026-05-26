@@ -134,6 +134,9 @@ RSpec runs: {N-invalid_count-skip_count} executions of bundle exec rspec spec/da
 Fill in all {placeholders} with actual counts from the run. Do not hardcode numbers — compute
 them from the actual run results.
 
+Compute {pct} as: `(killed_count.to_f / (N - invalid_count - skip_count) * 100).round(1)`.
+Format as one decimal place (e.g., `75.0`, `100.0`, `0.0`). If denominator is zero, use `N/A`.
+
 **Step 6 — Print summary to stdout.**
 Print:
 ```
