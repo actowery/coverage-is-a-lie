@@ -25,11 +25,11 @@
 
 ### Weak Test Suite
 
-- [ ] **TEST-01**: RSpec suite covers every function; suite passes green
+- [x] **TEST-01**: RSpec suite covers every function; suite passes green
 - [x] **TEST-02**: SimpleCov configured with line + branch coverage, `minimum_coverage 100`, loaded as the very first line of `spec_helper`, guarded behind `ENV['COVERAGE']`
-- [ ] **TEST-03**: Coverage report shows 100% line + branch on the library
-- [ ] **TEST-04**: Tests use real assertions (`expect(x).to eq(y)`) — failure mode is omission of boundary cases, not absence of assertions
-- [ ] **TEST-05**: Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
+- [x] **TEST-03**: Coverage report shows 100% line + branch on the library
+- [x] **TEST-04**: Tests use real assertions (`expect(x).to eq(y)`) — failure mode is omission of boundary cases, not absence of assertions
+- [x] **TEST-05**: Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
 - [ ] **TEST-06**: Blind review by a second pair of eyes confirms the weak tests look like plausible first-pass coverage (no obvious straw-man tells)
 
 ### Mutant Gem Baseline (Act 1 reveal — traditional)
@@ -122,11 +122,11 @@ Deferred. Tracked but not in current roadmap.
 | LIB-05 | Phase 2 | Complete |
 | LIB-06 | Phase 2 | Complete |
 | LIB-07 | Phase 2 | Complete |
-| TEST-01 | Phase 2 | Pending |
+| TEST-01 | Phase 2 | Complete |
 | TEST-02 | Phase 2 | Complete |
-| TEST-03 | Phase 2 | Pending |
-| TEST-04 | Phase 2 | Pending |
-| TEST-05 | Phase 2 | Pending |
+| TEST-03 | Phase 2 | Complete |
+| TEST-04 | Phase 2 | Complete |
+| TEST-05 | Phase 2 | Complete |
 | TEST-06 | Phase 2 | Pending |
 | MUT-01 | Phase 3 | Pending |
 | MUT-02 | Phase 3 | Pending |

@@ -47,7 +47,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Every function contains at least one boundary condition (leap-day, negative duration, off-by-one, weekend boundary) that the suite omits
 **Plans**: 3 plans
   - [x] 02-01-PLAN.md — Wave 1: lib/date_utils.rb (six functions with intentional boundary bugs) + spec/spec_helper.rb + .rspec
-  - [ ] 02-02-PLAN.md — Wave 2: spec/date_utils_spec.rb (weak tests, 100% line+branch coverage, boundaries omitted)
+  - [x] 02-02-PLAN.md — Wave 2: spec/date_utils_spec.rb (weak tests, 100% line+branch coverage, boundaries omitted)
   - [ ] 02-03-PLAN.md — Wave 3: Rakefile + CI rspec job + blind-review checkpoint + Phase 2 commit
 
 ### Phase 3: mutant Baseline
@@ -104,7 +104,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
-| 2. Library and Weak Tests | 1/3 | In Progress|  |
+| 2. Library and Weak Tests | 2/3 | In Progress|  |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |
