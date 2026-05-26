@@ -43,15 +43,15 @@
 ### LLM Mutation Skill (`/llm-mutate`)
 
 - [x] **SKILL-01**: Skill lives at `.claude/skills/llm-mutate/SKILL.md` with valid frontmatter; invokable as `/llm-mutate`
-- [ ] **SKILL-02**: Skill supports two modes via arg: `/llm-mutate --generate` (Claude generates mutations live in the current session) and `/llm-mutate --replay` (reads committed fixture). The demo uses `--replay`.
+- [x] **SKILL-02**: Skill supports two modes via arg: `/llm-mutate --generate` (Claude generates mutations live in the current session) and `/llm-mutate --replay` (reads committed fixture). The demo uses `--replay`.
 - [x] **SKILL-03**: Skill is pure SKILL.md instructions — no external API client, no API key. Claude Code is the LLM runtime; the skill instructs Claude to generate mutations using its Read/Write/Bash tools in the session. Model is whatever the session is configured to use (Sonnet 4.6 recommended).
-- [ ] **SKILL-04**: Mutations are semantically meaningful per Meta's ACH approach — generated as "what a careless developer would write" descriptions, not exhaustive operator substitutions
-- [ ] **SKILL-05**: Pipeline validates each mutation with `ruby -c` and discards non-compilable candidates with a logged count
+- [x] **SKILL-04**: Mutations are semantically meaningful per Meta's ACH approach — generated as "what a careless developer would write" descriptions, not exhaustive operator substitutions
+- [x] **SKILL-05**: Pipeline validates each mutation with `ruby -c` and discards non-compilable candidates with a logged count
 - [ ] **SKILL-06**: Generate mode enforces a `MAX_MUTATIONS` cap (default 20) to bound session token usage
-- [ ] **SKILL-07**: For each surviving mutation candidate, the skill writes the mutated file to `tmp/mutants/<id>.rb`, runs the RSpec wrapper, and classifies killed (exit 0) vs survived (exit 1)
-- [ ] **SKILL-08**: Output report `tmp/llm-mutation-report.md` includes plain-English mutation description, diff, kill/survive verdict, and an aggregate mutation score
+- [x] **SKILL-07**: For each surviving mutation candidate, the skill writes the mutated file to `tmp/mutants/<id>.rb`, runs the RSpec wrapper, and classifies killed (exit 0) vs survived (exit 1)
+- [x] **SKILL-08**: Output report `tmp/llm-mutation-report.md` includes plain-English mutation description, diff, kill/survive verdict, and an aggregate mutation score
 - [ ] **SKILL-09**: Report includes an estimated-cost footer derived from approximate token counts (input/output bytes × Sonnet 4.6 rates) — labeled "estimated" since live token metering is not available from inside a skill
-- [ ] **SKILL-10**: A committed fixture file lets `--replay` reproduce the canonical demo output identically across machines
+- [x] **SKILL-10**: A committed fixture file lets `--replay` reproduce the canonical demo output identically across machines
 - [x] **SKILL-11**: Skill includes a thin `scripts/run_mutant_spec.sh` wrapper that exits 0 if RSpec passes (mutation killed) and 1 if it fails (mutation survived)
 
 ### Side-by-Side Comparison (Act 2 reveal — LLM)
@@ -134,15 +134,15 @@ Deferred. Tracked but not in current roadmap.
 | MUT-04 | Phase 3 | Complete |
 | MUT-05 | Phase 3 | Complete |
 | SKILL-01 | Phase 4 | Complete |
-| SKILL-02 | Phase 4 | Pending |
+| SKILL-02 | Phase 4 | Complete |
 | SKILL-03 | Phase 4 | Complete |
-| SKILL-04 | Phase 4 | Pending |
-| SKILL-05 | Phase 4 | Pending |
+| SKILL-04 | Phase 4 | Complete |
+| SKILL-05 | Phase 4 | Complete |
 | SKILL-06 | Phase 4 | Pending |
-| SKILL-07 | Phase 4 | Pending |
-| SKILL-08 | Phase 4 | Pending |
+| SKILL-07 | Phase 4 | Complete |
+| SKILL-08 | Phase 4 | Complete |
 | SKILL-09 | Phase 4 | Pending |
-| SKILL-10 | Phase 4 | Pending |
+| SKILL-10 | Phase 4 | Complete |
 | SKILL-11 | Phase 4 | Complete |
 | COMP-01 | Phase 5 | Pending |
 | COMP-02 | Phase 5 | Pending |
