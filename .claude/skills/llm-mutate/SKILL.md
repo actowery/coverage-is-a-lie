@@ -37,9 +37,10 @@ This directory is gitignored. All mutation files are written here.
 
 **Step 3 — Validate all mutations with ruby -c.**
 For each mutation in the fixture:
-  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the line that
-     exactly matches `original_line` (after stripping leading whitespace) with `mutated_line`
-     (with the same leading whitespace as the original). If no line matches, log:
+  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the FIRST line
+     whose stripped content exactly matches `original_line` with `mutated_line` (preserving
+     the same leading whitespace as the original). If the line appears more than once, only
+     replace the first occurrence and log a WARNING. If no line matches, log:
      `SKIP <id>: original_line not found in lib/date_utils.rb` and continue.
   b. Write the mutated source to `tmp/mutants/<id>.rb`.
   c. Run: `ruby -c tmp/mutants/<id>.rb`
@@ -191,8 +192,9 @@ next_occurrence_of_weekday, weeks_between), generate mutations up to budget:
 
 **Step 5 — Validate with ruby -c.**
 For each generated mutation:
-  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the matching
-     original_line with mutated_line (same leading whitespace).
+  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the FIRST line
+     whose stripped content exactly matches original_line with mutated_line (same leading whitespace).
+     If the line appears more than once, only replace the first occurrence and log a WARNING.
   b. Write the mutated source to `tmp/generated/<id>.rb`.
   c. Run: `ruby -c tmp/generated/<id>.rb`
      - Exit non-zero: log `INVALID <id>: rejected by ruby -c`. Increment invalid_count.
