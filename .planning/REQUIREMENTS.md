@@ -68,8 +68,8 @@
 ### Narrative Artifacts
 
 - [x] **DOC-01**: README has clearly-labeled Act 1 / Act 2 narrative sections with the "100% coverage is a lie" framing and AI-era angle
-- [ ] **DOC-02**: `docs/shot-list.md` enumerates each beat of the recording with terminal commands, expected on-screen output, and dual-audience cues (engineer-deep vs leadership-narrative)
-- [ ] **DOC-03**: `docs/narration-script.md` provides recording-ready voice-over text aligned to the shot list
+- [x] **DOC-02**: `docs/shot-list.md` enumerates each beat of the recording with terminal commands, expected on-screen output, and dual-audience cues (engineer-deep vs leadership-narrative)
+- [x] **DOC-03**: `docs/narration-script.md` provides recording-ready voice-over text aligned to the shot list
 - [x] **DOC-04**: README documents the Claude Code `~/.claude/settings.json` permissions needed on the demo machine to avoid mid-recording permission prompts
 
 ### Demo Validation
@@ -150,8 +150,8 @@ Deferred. Tracked but not in current roadmap.
 | DEMO-02 | Phase 5 | Complete |
 | DEMO-03 | Phase 5 | Complete |
 | DOC-01 | Phase 5 | Complete |
-| DOC-02 | Phase 5 | Pending |
-| DOC-03 | Phase 5 | Pending |
+| DOC-02 | Phase 5 | Complete |
+| DOC-03 | Phase 5 | Complete |
 | DOC-04 | Phase 5 | Complete |
 | VAL-01 | Phase 6 | Pending |
 | VAL-02 | Phase 6 | Pending |
