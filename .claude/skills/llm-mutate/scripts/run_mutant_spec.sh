@@ -7,6 +7,11 @@ if [[ -d "$HOME/.local/share/mise/shims" ]]; then
   export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 
+if [[ ! -f "lib/date_utils.rb" ]]; then
+  echo "Error: run_mutant_spec.sh must be invoked from the project root (lib/date_utils.rb not found)" >&2
+  exit 2
+fi
+
 MUTANT_FILE="${1:-}"
 ORIG_BACKUP=".claude/skills/llm-mutate/tmp/date_utils.orig.rb"
 
