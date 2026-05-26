@@ -1,0 +1,187 @@
+{
+  "version": "1",
+  "model_hint": "claude-sonnet-4-6",
+  "generated_by": "hand-curated (Phase 4 plan 02)",
+  "mutations": [
+    {
+      "id": "LM-DB-01",
+      "function": "days_between",
+      "description": "Drops .to_i — returns a Rational instead of an integer. Ruby's eq(7) assertion still passes because Rational(7,1) == 7, but downstream integer division in weeks_between breaks silently for non-exact-multiple inputs.",
+      "original_line": "(end_date - start_date).to_i",
+      "mutated_line": "(end_date - start_date)",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-DB-02",
+      "function": "days_between",
+      "description": "Swaps argument order — returns negative days when dates are given in chronological order, exposing the missing .abs. A test calling days_between(jan1, jan8) would receive -7. The test suite never passes reversed dates, so this mutation survives.",
+      "original_line": "(end_date - start_date).to_i",
+      "mutated_line": "(start_date - end_date).to_i",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
+      "id": "LM-DB-03",
+      "function": "days_between",
+      "description": "Adds .abs to the result — a reviewer might think this fixes the reversed-date bug, but the weak test suite never passes reversed dates so the mutation survives undetected. The original intentionally omits .abs as its boundary bug.",
+      "original_line": "(end_date - start_date).to_i",
+      "mutated_line": "(end_date - start_date).to_i.abs",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AB-01",
+      "function": "add_business_days",
+      "description": "Inverts the direction check — uses n.negative? instead of n.positive? to assign direction 1, so positive n steps backward and negative n steps forward. This is the Phase 2 anchor boundary bug made explicit as a mutation.",
+      "original_line": "direction = n.positive? ? 1 : -1",
+      "mutated_line": "direction = n.negative? ? 1 : -1",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
+      "id": "LM-AB-02",
+      "function": "add_business_days",
+      "description": "Removes the weekend skip entirely — increments steps regardless of Saturday/Sunday, so business-day counts include weekend days. Tests happen to use start dates and step counts that do not expose this difference in the specific expected values checked.",
+      "original_line": "steps += 1 unless current.saturday? || current.sunday?",
+      "mutated_line": "steps += 1",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AB-03",
+      "function": "add_business_days",
+      "description": "Changes the weekend check to skip only Saturdays — Sundays count as business days. Tests only use Monday/Thursday/Friday start dates and never land a step count increment on a Sunday, so this mutation survives.",
+      "original_line": "steps += 1 unless current.saturday? || current.sunday?",
+      "mutated_line": "steps += 1 unless current.saturday?",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AB-04",
+      "function": "add_business_days",
+      "description": "Converts the loop bound to Float — uses n.abs.to_f instead of n.abs in the while condition. Integer < Float comparison is valid Ruby and produces identical results for all integer step counts. This is a semantically equivalent mutation that no test will ever catch.",
+      "original_line": "while steps < n.abs",
+      "mutated_line": "while steps < n.abs.to_f",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-LY-01",
+      "function": "leap_year?",
+      "description": "Adds the correct 400-year Gregorian exception — replaces the blunt 100-year guard with the precise rule that fires for century years NOT divisible by 400. Year 2000 now correctly returns true, but no test ever checks year 2000, so this bug-fix mutation survives undetected.",
+      "original_line": "return false if (year % 100).zero?",
+      "mutated_line": "return false if (year % 100).zero? && (year % 400) != 0",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
+      "id": "LM-LY-02",
+      "function": "leap_year?",
+      "description": "Adds a spurious post-2100 guard — changes the final return from `true` to `year <= 2100`. For all test years (2019, 2020, 2023, 2024, 1900) the result is unchanged. No test uses a year after 2100, so this survives.",
+      "original_line": "true",
+      "mutated_line": "year <= 2100",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-LY-03",
+      "function": "leap_year?",
+      "description": "Replaces modulo with Numeric#remainder for the 4-year divisibility check — for positive year arguments, Integer#remainder and % are identical. This is a semantically equivalent mutation that demonstrates equivalent mutant noise in the report.",
+      "original_line": "return false unless (year % 4).zero?",
+      "mutated_line": "return false unless year.remainder(4).zero?",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AI-01",
+      "function": "age_in_years",
+      "description": "Clamps birthdate day to 28 in the month/day tuple comparison — normalizes Feb 29 birthdays to Feb 28, which would fix the over-subtraction for leap-day birthdays in non-leap years. No test uses a Feb 29 birthdate, so this bug-fix mutation survives.",
+      "original_line": "years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0",
+      "mutated_line": "years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, [birthdate.day, 28].min]) < 0",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
+      "id": "LM-AI-02",
+      "function": "age_in_years",
+      "description": "Replaces the explicit `< 0` comparison with the Integer#negative? predicate — semantically identical for the result of a <=> comparison. This equivalent mutation demonstrates that superficially different code can be functionally indistinguishable.",
+      "original_line": "years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0",
+      "mutated_line": "years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]).negative?",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AI-03",
+      "function": "age_in_years",
+      "description": "Rewrites the compound assignment as an explicit subtraction — `years = years - 1 if` instead of `years -= 1 if`. Ruby's -= is syntactic sugar for the explicit form; behavior is identical across all test inputs.",
+      "original_line": "years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0",
+      "mutated_line": "years = years - 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-AI-04",
+      "function": "age_in_years",
+      "description": "Adds a redundant .to_i call on as_of.year — Date#year already returns an Integer, so .to_i is a no-op. Another equivalent mutation that survives all tests, illustrating the equivalent-mutant problem.",
+      "original_line": "years = as_of.year - birthdate.year",
+      "mutated_line": "years = as_of.year.to_i - birthdate.year",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-NO-01",
+      "function": "next_occurrence_of_weekday",
+      "description": "Forces same-day input to return 7 days ahead instead of 0 — adds `days_ahead = 7 if days_ahead.zero?` after the modulo line. This is the Phase 2 intentional same-day boundary bug made explicit. No test ever calls next_occurrence_of_weekday with from_date already on the target weekday, so the mutation survives.",
+      "original_line": "days_ahead = (weekday - from_date.wday) % 7",
+      "mutated_line": "days_ahead = (weekday - from_date.wday) % 7; days_ahead = 7 if days_ahead.zero?",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
+      "id": "LM-NO-02",
+      "function": "next_occurrence_of_weekday",
+      "description": "Adds a redundant .to_i call on from_date.wday — Date#wday already returns an Integer. Semantically equivalent, survives all tests. Demonstrates that trivial syntactic changes can produce surviving mutants in a coverage-only CI pipeline.",
+      "original_line": "days_ahead = (weekday - from_date.wday) % 7",
+      "mutated_line": "days_ahead = (weekday - from_date.wday.to_i) % 7",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-NO-03",
+      "function": "next_occurrence_of_weekday",
+      "description": "Adds 7 before the modulo operation — (7 + weekday - from_date.wday) % 7 is mathematically equivalent to (weekday - from_date.wday) % 7 because Ruby's modulo is always non-negative. A careless refactor that changes nothing observable.",
+      "original_line": "days_ahead = (weekday - from_date.wday) % 7",
+      "mutated_line": "days_ahead = (7 + weekday - from_date.wday) % 7",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-WB-01",
+      "function": "weeks_between",
+      "description": "Converts integer division to float division — uses / 7.0 instead of / 7. In Ruby, 14.0 / 7.0 = 2.0, and 2.0 == 2 is true (Numeric equality), so all eq(n) assertions still pass. The mutation survives even though the return type changes from Integer to Float.",
+      "original_line": "days_between(start_date, end_date) / 7",
+      "mutated_line": "days_between(start_date, end_date) / 7.0",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-WB-02",
+      "function": "weeks_between",
+      "description": "Inlines the date subtraction instead of delegating to days_between — computes (end_date - start_date).to_i / 7 directly. Bypasses days_between's missing .abs, but tests only use chronological date order, so the two implementations agree for all tested inputs.",
+      "original_line": "days_between(start_date, end_date) / 7",
+      "mutated_line": "(end_date - start_date).to_i / 7",
+      "expected_verdict": "survived",
+      "anchor_bug": false
+    },
+    {
+      "id": "LM-WB-03",
+      "function": "weeks_between",
+      "description": "Adds .abs to the days_between result before dividing — would fix the negative-week-count bug for reversed date order, but no test ever passes reversed dates to weeks_between. Mirrors the LM-DB-02 pattern: the bug fix itself survives undetected.",
+      "original_line": "days_between(start_date, end_date) / 7",
+      "mutated_line": "days_between(start_date, end_date).abs / 7",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    }
+  ]
+}
