@@ -91,7 +91,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. `docs/narration-script.md` provides recording-ready voice-over text aligned to the shot list
 **Plans**: 3 plans
   - [x] 05-01-PLAN.md — Wave 1: docs/comparison.md (function-by-function table with 3+ divergences) + README.md two-act narrative + DOC-04 permissions block
-  - [ ] 05-02-PLAN.md — Wave 2: demo/weak-tests branch (committed reports) + demo/fixed-tests branch (boundary tests + fixed lib + refreshed reports) + return to main
+  - [x] 05-02-PLAN.md — Wave 2: demo/weak-tests branch (committed reports) + demo/fixed-tests branch (boundary tests + fixed lib + refreshed reports) + return to main
   - [ ] 05-03-PLAN.md — Wave 3: docs/shot-list.md (14 beats, dual-audience cues) + docs/narration-script.md (recording-ready prose)
 
 ### Phase 6: End-to-End Validation
@@ -115,5 +115,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
 | 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
 | 4. LLM Mutation Skill | 3/3 | Complete   | 2026-05-26 |
-| 5. Comparison and Narrative | 1/3 | In Progress|  |
+| 5. Comparison and Narrative | 2/3 | In Progress|  |
 | 6. End-to-End Validation | 0/TBD | Not started | - |

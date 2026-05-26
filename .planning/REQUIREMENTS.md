@@ -61,9 +61,9 @@
 
 ### Demo States
 
-- [ ] **DEMO-01**: `demo/weak-tests` git branch holds the green-but-broken state with committed `tmp/mutant-report.txt` and `tmp/llm-mutation-report.md`
-- [ ] **DEMO-02**: `demo/fixed-tests` git branch holds the improved test suite that kills all previously-surviving mutations, with refreshed report artifacts committed
-- [ ] **DEMO-03**: Switching between the two branches requires only `git checkout` — no manual file edits
+- [x] **DEMO-01**: `demo/weak-tests` git branch holds the green-but-broken state with committed `tmp/mutant-report.txt` and `tmp/llm-mutation-report.md`
+- [x] **DEMO-02**: `demo/fixed-tests` git branch holds the improved test suite that kills all previously-surviving mutations, with refreshed report artifacts committed
+- [x] **DEMO-03**: Switching between the two branches requires only `git checkout` — no manual file edits
 
 ### Narrative Artifacts
 
@@ -146,9 +146,9 @@ Deferred. Tracked but not in current roadmap.
 | SKILL-11 | Phase 4 | Complete |
 | COMP-01 | Phase 5 | Complete |
 | COMP-02 | Phase 5 | Complete |
-| DEMO-01 | Phase 5 | Pending |
-| DEMO-02 | Phase 5 | Pending |
-| DEMO-03 | Phase 5 | Pending |
+| DEMO-01 | Phase 5 | Complete |
+| DEMO-02 | Phase 5 | Complete |
+| DEMO-03 | Phase 5 | Complete |
 | DOC-01 | Phase 5 | Complete |
 | DOC-02 | Phase 5 | Pending |
 | DOC-03 | Phase 5 | Pending |
