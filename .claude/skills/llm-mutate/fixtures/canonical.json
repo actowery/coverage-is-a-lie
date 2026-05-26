@@ -2,6 +2,7 @@
   "version": "1",
   "model_hint": "claude-sonnet-4-6",
   "generated_by": "hand-curated (Phase 4 plan 02)",
+  "_notes": "LM-DB-02 was changed from the plan spec (swap-arg-order: (start_date - end_date).to_i) to Kernel#Integer() because swap-arg-order is killed by the eq(7) assertion in the chronological-order test. The days_between anchor bug (missing .abs for reversed dates) is correctly covered by LM-DB-03. See 04-02-SUMMARY.md for full deviation rationale.",
   "mutations": [
     {
       "id": "LM-DB-01",
