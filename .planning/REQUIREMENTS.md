@@ -56,8 +56,8 @@
 
 ### Side-by-Side Comparison (Act 2 reveal — LLM)
 
-- [ ] **COMP-01**: `docs/comparison.md` presents a table mapping mutations from each tool to the same six functions, with kill/survive verdicts
-- [ ] **COMP-02**: Comparison highlights at least three mutations the LLM caught that mutant missed (or vice versa) with one-sentence explanations of why each matters
+- [x] **COMP-01**: `docs/comparison.md` presents a table mapping mutations from each tool to the same six functions, with kill/survive verdicts
+- [x] **COMP-02**: Comparison highlights at least three mutations the LLM caught that mutant missed (or vice versa) with one-sentence explanations of why each matters
 
 ### Demo States
 
@@ -67,10 +67,10 @@
 
 ### Narrative Artifacts
 
-- [ ] **DOC-01**: README has clearly-labeled Act 1 / Act 2 narrative sections with the "100% coverage is a lie" framing and AI-era angle
+- [x] **DOC-01**: README has clearly-labeled Act 1 / Act 2 narrative sections with the "100% coverage is a lie" framing and AI-era angle
 - [ ] **DOC-02**: `docs/shot-list.md` enumerates each beat of the recording with terminal commands, expected on-screen output, and dual-audience cues (engineer-deep vs leadership-narrative)
 - [ ] **DOC-03**: `docs/narration-script.md` provides recording-ready voice-over text aligned to the shot list
-- [ ] **DOC-04**: README documents the Claude Code `~/.claude/settings.json` permissions needed on the demo machine to avoid mid-recording permission prompts
+- [x] **DOC-04**: README documents the Claude Code `~/.claude/settings.json` permissions needed on the demo machine to avoid mid-recording permission prompts
 
 ### Demo Validation
 
@@ -144,15 +144,15 @@ Deferred. Tracked but not in current roadmap.
 | SKILL-09 | Phase 4 | Complete |
 | SKILL-10 | Phase 4 | Complete |
 | SKILL-11 | Phase 4 | Complete |
-| COMP-01 | Phase 5 | Pending |
-| COMP-02 | Phase 5 | Pending |
+| COMP-01 | Phase 5 | Complete |
+| COMP-02 | Phase 5 | Complete |
 | DEMO-01 | Phase 5 | Pending |
 | DEMO-02 | Phase 5 | Pending |
 | DEMO-03 | Phase 5 | Pending |
-| DOC-01 | Phase 5 | Pending |
+| DOC-01 | Phase 5 | Complete |
 | DOC-02 | Phase 5 | Pending |
 | DOC-03 | Phase 5 | Pending |
-| DOC-04 | Phase 5 | Pending |
+| DOC-04 | Phase 5 | Complete |
 | VAL-01 | Phase 6 | Pending |
 | VAL-02 | Phase 6 | Pending |
 | VAL-03 | Phase 6 | Pending |
