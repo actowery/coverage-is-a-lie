@@ -160,12 +160,16 @@ For each function, note:
 - Any comparison operators
 - Boundary conditions documented in comments (look for "Intentional bug:" annotations)
 
-**Step 2 — Set the budget.**
+**Step 2 — Prepare workspace.**
+Run: `mkdir -p tmp/generated`
+This directory is gitignored. All generated mutation files are written here.
+
+**Step 3 — Set the budget.**
 MAX_MUTATIONS = 20 (default). Distribute across 6 functions: target 3-4 mutations per function,
 stopping globally when the total reaches MAX_MUTATIONS. Do not exceed this cap regardless of
 how many functions remain. Log the distribution plan before generating.
 
-**Step 3 — Generate mutations using Meta ACH style.**
+**Step 4 — Generate mutations using Meta ACH style.**
 For each function (in order: days_between, add_business_days, leap_year?, age_in_years,
 next_occurrence_of_weekday, weeks_between), generate mutations up to budget:
 
@@ -183,7 +187,7 @@ next_occurrence_of_weekday, weeks_between), generate mutations up to budget:
   d. Assign a stable ID using scheme LM-{ABBREV}-G{NN} where ABBREV is the function abbreviation
      and NN is a two-digit counter (G prefix means generated, not from fixture).
 
-**Step 4 — Validate with ruby -c.**
+**Step 5 — Validate with ruby -c.**
 For each generated mutation:
   a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the matching
      original_line with mutated_line (same leading whitespace).
@@ -191,18 +195,18 @@ For each generated mutation:
   c. Run: `ruby -c tmp/generated/<id>.rb`
      - Exit non-zero: log `INVALID <id>: rejected by ruby -c`. Increment invalid_count.
        Do NOT run RSpec for this mutation.
-     - Exit 0: proceed to Step 5.
+     - Exit 0: proceed to Step 6.
 
 Track: invalid_count, generated_count (attempted), valid_count (passed ruby -c).
 
-**Step 5 — Run the kill detector.**
+**Step 6 — Run the kill detector.**
 For each mutation that passed ruby -c:
   Run: `bash .claude/skills/llm-mutate/scripts/run_mutant_spec.sh tmp/generated/<id>.rb`
   - Exit 0: mutation SURVIVED.
   - Exit non-zero: mutation KILLED.
   Record verdict.
 
-**Step 6 — Render the report.**
+**Step 7 — Render the report.**
 Write `tmp/llm-mutation-report.md` using the same format as --replay mode, with these differences:
 
   - Header: `# LLM Mutation Report — Generate Mode`
@@ -211,7 +215,7 @@ Write `tmp/llm-mutation-report.md` using the same format as --replay mode, with 
   - Sections for only the generated mutations (not fixture mutations)
   - Include the estimated cost footer (see below)
 
-**Step 7 — Estimated cost footer.**
+**Step 8 — Estimated cost footer.**
 Append this section to `tmp/llm-mutation-report.md`:
 
 ```
@@ -247,7 +251,7 @@ Fill in the table using these formulas:
 
 Format all cost values as 7 decimal places (e.g., $0.0000019).
 
-**Step 8 — Print summary.**
+**Step 9 — Print summary.**
 Print:
 ```
 LLM Mutation Report complete (--generate mode).
