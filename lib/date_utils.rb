@@ -48,7 +48,7 @@ module DateUtils
   # subtract an extra year for leap-day birthdays in non-leap years.
   def age_in_years(birthdate, as_of:)
     years = as_of.year - birthdate.year
-    years -= 1 if [as_of.month, as_of.day] < [birthdate.month, birthdate.day]
+    years -= 1 if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0
     years
   end
 
