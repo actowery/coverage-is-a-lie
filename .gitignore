@@ -1,0 +1,34 @@
+# Source: github.com/github/gitignore/blob/main/Ruby.gitignore (trimmed for demo scope)
+
+# Bundler / gem builds
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+
+# Test & coverage output (Phases 2-3 generate these)
+/coverage/
+/spec/reports/
+/spec/examples.txt
+
+# Mutant + LLM mutator output (Phase 3-4 generate these)
+/tmp/
+
+# OS / editor noise
+.DS_Store
+.byebug_history
+
+# Documentation cache
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+# Secrets — never commit (T-1-04 mitigation)
+.env
+.env.*
+*.pem
+*.key
+
+# Note: Gemfile.lock is INTENTIONALLY committed for this project (it is an
+# application/demo, not a publishable library). Do not add Gemfile.lock here.
