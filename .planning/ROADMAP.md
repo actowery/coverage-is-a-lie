@@ -45,7 +45,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
   3. A reviewer who did not build the library agrees the test suite looks like plausible first-pass coverage (no obvious straw-man tells)
   4. Every function contains at least one boundary condition (leap-day, negative duration, off-by-one, weekend boundary) that the suite omits
-**Plans**: TBD
+**Plans**: 3 plans
+  - [x] 02-01-PLAN.md — Wave 1: lib/date_utils.rb (six functions with intentional boundary bugs) + spec/spec_helper.rb + .rspec
+  - [ ] 02-02-PLAN.md — Wave 2: spec/date_utils_spec.rb (weak tests, 100% line+branch coverage, boundaries omitted)
+  - [ ] 02-03-PLAN.md — Wave 3: Rakefile + CI rspec job + blind-review checkpoint + Phase 2 commit
 
 ### Phase 3: mutant Baseline
 **Goal**: `bundle exec mutant run` executes against all six library functions, produces a `tmp/mutant-report.txt` with kill rate and alive-mutation diffs, and a manual equivalence audit labels the meaningful survivors — Act 1 of the demo has its evidence.
@@ -101,7 +104,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
-| 2. Library and Weak Tests | 0/TBD | Not started | - |
+| 2. Library and Weak Tests | 1/3 | In Progress|  |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |

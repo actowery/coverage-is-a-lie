@@ -15,18 +15,18 @@
 
 ### Date/Time Library (`DateUtils`)
 
-- [ ] **LIB-01**: `DateUtils.days_between(start_date, end_date)` — integer days, supports reversed dates
-- [ ] **LIB-02**: `DateUtils.add_business_days(date, n)` — skip weekends, supports negative `n`
-- [ ] **LIB-03**: `DateUtils.leap_year?(year)` — full three-clause Gregorian rule (divisible by 4, not 100, except 400)
-- [ ] **LIB-04**: `DateUtils.age_in_years(birthdate, as_of:)` — handles leap-day birthdays, birthday-this-year off-by-one
-- [ ] **LIB-05**: `DateUtils.next_occurrence_of_weekday(from_date, weekday)` — clearly-documented return-same-day-or-next-week semantics
-- [ ] **LIB-06**: `DateUtils.weeks_between(start_date, end_date)` — integer division, supports reversed dates
-- [ ] **LIB-07**: Library is dependency-free pure Ruby; no DST / timezone behavior in surface
+- [x] **LIB-01**: `DateUtils.days_between(start_date, end_date)` — integer days, supports reversed dates
+- [x] **LIB-02**: `DateUtils.add_business_days(date, n)` — skip weekends, supports negative `n`
+- [x] **LIB-03**: `DateUtils.leap_year?(year)` — full three-clause Gregorian rule (divisible by 4, not 100, except 400)
+- [x] **LIB-04**: `DateUtils.age_in_years(birthdate, as_of:)` — handles leap-day birthdays, birthday-this-year off-by-one
+- [x] **LIB-05**: `DateUtils.next_occurrence_of_weekday(from_date, weekday)` — clearly-documented return-same-day-or-next-week semantics
+- [x] **LIB-06**: `DateUtils.weeks_between(start_date, end_date)` — integer division, supports reversed dates
+- [x] **LIB-07**: Library is dependency-free pure Ruby; no DST / timezone behavior in surface
 
 ### Weak Test Suite
 
 - [ ] **TEST-01**: RSpec suite covers every function; suite passes green
-- [ ] **TEST-02**: SimpleCov configured with line + branch coverage, `minimum_coverage 100`, loaded as the very first line of `spec_helper`, guarded behind `ENV['COVERAGE']`
+- [x] **TEST-02**: SimpleCov configured with line + branch coverage, `minimum_coverage 100`, loaded as the very first line of `spec_helper`, guarded behind `ENV['COVERAGE']`
 - [ ] **TEST-03**: Coverage report shows 100% line + branch on the library
 - [ ] **TEST-04**: Tests use real assertions (`expect(x).to eq(y)`) — failure mode is omission of boundary cases, not absence of assertions
 - [ ] **TEST-05**: Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
@@ -115,15 +115,15 @@ Deferred. Tracked but not in current roadmap.
 | REPO-03 | Phase 1 | Complete |
 | REPO-04 | Phase 1 | Complete |
 | REPO-05 | Phase 1 | Complete |
-| LIB-01 | Phase 2 | Pending |
-| LIB-02 | Phase 2 | Pending |
-| LIB-03 | Phase 2 | Pending |
-| LIB-04 | Phase 2 | Pending |
-| LIB-05 | Phase 2 | Pending |
-| LIB-06 | Phase 2 | Pending |
-| LIB-07 | Phase 2 | Pending |
+| LIB-01 | Phase 2 | Complete |
+| LIB-02 | Phase 2 | Complete |
+| LIB-03 | Phase 2 | Complete |
+| LIB-04 | Phase 2 | Complete |
+| LIB-05 | Phase 2 | Complete |
+| LIB-06 | Phase 2 | Complete |
+| LIB-07 | Phase 2 | Complete |
 | TEST-01 | Phase 2 | Pending |
-| TEST-02 | Phase 2 | Pending |
+| TEST-02 | Phase 2 | Complete |
 | TEST-03 | Phase 2 | Pending |
 | TEST-04 | Phase 2 | Pending |
 | TEST-05 | Phase 2 | Pending |
