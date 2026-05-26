@@ -47,6 +47,7 @@ For each mutation in the fixture:
      - If exit code is 0: continue to Step 4.
 
 Track: invalid_count = number of mutations that failed ruby -c.
+       skip_count = number of mutations whose original_line was not found in the source.
 
 **Step 4 — Run the kill detector for each valid mutation.**
 For each mutation that passed ruby -c:
@@ -64,10 +65,11 @@ Write `tmp/llm-mutation-report.md` with this exact structure:
 **Fixture:** .claude/skills/llm-mutate/fixtures/canonical.json
 **Mode:** --replay (deterministic)
 **Total mutations:** {N}
+**Skipped (original_line not found):** {skip_count}
 **Invalid (ruby -c rejected):** {invalid_count}
 **Killed:** {killed_count}
 **Survived:** {survived_count}
-**Mutation score:** {killed_count}/{N-invalid_count} ({pct}%)
+**Mutation score:** {killed_count}/{N-invalid_count-skip_count} ({pct}%)
 
 ---
 
@@ -123,7 +125,7 @@ For each survived mutation, include:
 
 Mode: --replay (no LLM calls made during replay)
 Fixture generation cost: N/A — fixture is hand-curated (Phase 4 plan 02)
-RSpec runs: {N-invalid_count} executions of bundle exec rspec spec/date_utils_spec.rb
+RSpec runs: {N-invalid_count-skip_count} executions of bundle exec rspec spec/date_utils_spec.rb
 
 *Note: --generate mode logs estimated token cost. --replay mode has no LLM token usage.*
 ```
@@ -135,7 +137,7 @@ them from the actual run results.
 Print:
 ```
 LLM Mutation Report complete.
-  Mutations: {N} total, {invalid_count} invalid, {killed_count} killed, {survived_count} survived
+  Mutations: {N} total, {skip_count} skipped, {invalid_count} invalid, {killed_count} killed, {survived_count} survived
   Score: {pct}%
   Report: tmp/llm-mutation-report.md
 ```
