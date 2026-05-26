@@ -13,7 +13,7 @@ Six phases take this project from an empty repo to a recording-ready demo that p
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install` (completed 2026-05-26)
-- [ ] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions
+- [x] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions (completed 2026-05-26)
 - [ ] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit
 - [ ] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting
 - [ ] **Phase 5: Comparison and Narrative** - Side-by-side comparison, demo branch states, README, shot list, and narration script
@@ -48,7 +48,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
   - [x] 02-01-PLAN.md — Wave 1: lib/date_utils.rb (six functions with intentional boundary bugs) + spec/spec_helper.rb + .rspec
   - [x] 02-02-PLAN.md — Wave 2: spec/date_utils_spec.rb (weak tests, 100% line+branch coverage, boundaries omitted)
-  - [ ] 02-03-PLAN.md — Wave 3: Rakefile + CI rspec job + blind-review checkpoint + Phase 2 commit
+  - [x] 02-03-PLAN.md — Wave 3: Rakefile + CI rspec job + blind-review checkpoint + Phase 2 commit
 
 ### Phase 3: mutant Baseline
 **Goal**: `bundle exec mutant run` executes against all six library functions, produces a `tmp/mutant-report.txt` with kill rate and alive-mutation diffs, and a manual equivalence audit labels the meaningful survivors — Act 1 of the demo has its evidence.
@@ -104,7 +104,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
-| 2. Library and Weak Tests | 2/3 | In Progress|  |
+| 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |

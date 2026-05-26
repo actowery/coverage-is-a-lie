@@ -30,7 +30,7 @@
 - [x] **TEST-03**: Coverage report shows 100% line + branch on the library
 - [x] **TEST-04**: Tests use real assertions (`expect(x).to eq(y)`) — failure mode is omission of boundary cases, not absence of assertions
 - [x] **TEST-05**: Suite passes identically under `TZ=UTC` and `TZ=America/New_York`
-- [ ] **TEST-06**: Blind review by a second pair of eyes confirms the weak tests look like plausible first-pass coverage (no obvious straw-man tells)
+- [x] **TEST-06**: Blind review by a second pair of eyes confirms the weak tests look like plausible first-pass coverage (no obvious straw-man tells)
 
 ### Mutant Gem Baseline (Act 1 reveal — traditional)
 
@@ -127,7 +127,7 @@ Deferred. Tracked but not in current roadmap.
 | TEST-03 | Phase 2 | Complete |
 | TEST-04 | Phase 2 | Complete |
 | TEST-05 | Phase 2 | Complete |
-| TEST-06 | Phase 2 | Pending |
+| TEST-06 | Phase 2 | Complete |
 | MUT-01 | Phase 3 | Pending |
 | MUT-02 | Phase 3 | Pending |
 | MUT-03 | Phase 3 | Pending |
