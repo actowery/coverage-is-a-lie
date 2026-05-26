@@ -11,7 +11,6 @@ if ENV["COVERAGE"]
   end
 end
 
-require "date"
 require_relative "../lib/date_utils"
 
 RSpec.configure do |config|
