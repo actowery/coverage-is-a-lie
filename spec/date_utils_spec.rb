@@ -61,6 +61,10 @@ RSpec.describe DateUtils do
   end
 
   describe ".leap_year?" do
+    # Intentionally weak matchers: be_truthy/be_falsy accept any truthy/falsy
+    # value, not just literal true/false. A mutation returning the year integer
+    # (e.g. `return year`) or any other truthy object would still pass these
+    # assertions. Use `be true` / `be false` if you want strict boolean checks.
     context "when year is not divisible by 4" do
       it "returns false for 2023" do
         expect(DateUtils.leap_year?(2023)).to be_falsy
