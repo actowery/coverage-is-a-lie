@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install` (completed 2026-05-26)
 - [x] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions (completed 2026-05-26)
-- [ ] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit
+- [x] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit (completed 2026-05-26)
 - [ ] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting
 - [ ] **Phase 5: Comparison and Narrative** - Side-by-side comparison, demo branch states, README, shot list, and narration script
 - [ ] **Phase 6: End-to-End Validation** - Full two-act demo verified clean on the recording machine
@@ -62,7 +62,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
   - [x] 03-01-PLAN.md — Wave 1: add Timeout guard to spec_helper (MUT-03), rake mutant task, README Act 1 section
   - [x] 03-02-PLAN.md — Wave 2: execute mutant with 600s timeout, capture output to tmp/mutant-report.txt (MUT-01, MUT-02)
-  - [ ] 03-03-PLAN.md — Wave 3: classify all surviving mutants, write docs/mutant-audit.md (MUT-05)
+  - [x] 03-03-PLAN.md — Wave 3: classify all surviving mutants, write docs/mutant-audit.md (MUT-05)
 
 ### Phase 4: LLM Mutation Skill
 **Goal**: `/llm-mutate --generate` calls the Anthropic API and produces semantically meaningful mutations with plain-English descriptions; `/llm-mutate --replay` reads a committed fixture and reproduces the canonical demo output identically on any machine — the skill is demo-safe and cost-bounded.
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
 | 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
-| 3. mutant Baseline | 2/3 | In Progress|  |
+| 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |
 | 6. End-to-End Validation | 0/TBD | Not started | - |
