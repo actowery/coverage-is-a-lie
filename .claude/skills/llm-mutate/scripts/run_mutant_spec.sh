@@ -27,7 +27,16 @@ trap 'cp "$ORIG_BACKUP" lib/date_utils.rb' EXIT
 
 cp "$MUTANT_FILE" lib/date_utils.rb
 
+set +e
 bundle exec rspec spec/date_utils_spec.rb --no-color --format progress > /dev/null 2>&1
 RSPEC_EXIT=$?
+set -e
+
+# Exit codes: 0 = all passing (mutation survived), 1 = test failure (mutation killed).
+# Exit code >= 2 means a load error, Bundler failure, or interpreter crash — surface it so
+# the caller does not silently classify the error as a killed mutation.
+if [[ $RSPEC_EXIT -ge 2 ]]; then
+  echo "ERROR: run_mutant_spec.sh: rspec exited with code $RSPEC_EXIT (not a test failure — possible load error or Bundler crash)" >&2
+fi
 
 exit $RSPEC_EXIT
