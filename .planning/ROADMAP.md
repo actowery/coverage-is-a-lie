@@ -102,7 +102,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. The complete two-act demo runs end-to-end on the recording machine within 24-48 hours of recording without any errors or permission prompts
   2. Every command in `docs/shot-list.md` is copy-pasted verbatim and produces the exact output documented
   3. `/llm-mutate --replay` run three consecutive times produces byte-identical `tmp/llm-mutation-report.md` output
-**Plans**: TBD
+**Plans**: 1 plan
+  - [ ] 06-01-PLAN.md — Walk 14 shot-list beats, fix drift, verify replay determinism, fresh-clone smoke test
 
 ## Progress
 
@@ -116,4 +117,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
 | 4. LLM Mutation Skill | 3/3 | Complete   | 2026-05-26 |
 | 5. Comparison and Narrative | 3/3 | Complete   | 2026-05-26 |
-| 6. End-to-End Validation | 0/TBD | Not started | - |
+| 6. End-to-End Validation | 0/1 | Not started | - |
