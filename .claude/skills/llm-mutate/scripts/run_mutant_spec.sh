@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Ensure mise-managed Ruby/Bundler is available when script is called from a
+# shell that does not yet have the mise shims on PATH.
+if [[ -d "$HOME/.local/share/mise/shims" ]]; then
+  export PATH="$HOME/.local/share/mise/shims:$PATH"
+fi
+
 MUTANT_FILE="${1:-}"
 ORIG_BACKUP=".claude/skills/llm-mutate/tmp/date_utils.orig.rb"
 
