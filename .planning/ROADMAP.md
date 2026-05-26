@@ -30,7 +30,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Repo is public on GitHub and carries an OSS license file
   3. `.mutant.yml` contains `usage: opensource` and `bundle exec mutant run` does not throw a licensing error
   4. `.ruby-version` pins a Ruby 3.4.x release and the README quickstart is present
-**Plans**: TBD
+**Plans**: 4 plans
+  - [ ] 01-01-PLAN.md — Wave 0: human-verify Ruby 3.4.x is installed locally (precondition gate)
+  - [ ] 01-02-PLAN.md — Wave 1: write the seven Phase 1 source files (LICENSE, README.md, Gemfile, .ruby-version, .mutant.yml, .gitignore, .github/workflows/ci.yml)
+  - [ ] 01-03-PLAN.md — Wave 2: run `bundle install` to generate Gemfile.lock and create initial git commit on `main`
+  - [ ] 01-04-PLAN.md — Wave 3: create public GitHub repo at `actowery/coverage-is-a-lie`, push, and verify first CI run is green
 
 ### Phase 2: Library and Weak Tests
 **Goal**: All six `DateUtils` functions exist with non-trivial branching logic and the RSpec suite achieves 100% line and branch coverage while deliberately omitting boundary cases — the "green but broken" premise of the demo is proven and blind-review confirmed.
@@ -96,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo Foundation | 0/TBD | Not started | - |
+| 1. Repo Foundation | 0/4 | Not started | - |
 | 2. Library and Weak Tests | 0/TBD | Not started | - |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
