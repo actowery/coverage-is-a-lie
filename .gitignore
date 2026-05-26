@@ -32,3 +32,6 @@ vendor/bundle/
 
 # Note: Gemfile.lock is INTENTIONALLY committed for this project (it is an
 # application/demo, not a publishable library). Do not add Gemfile.lock here.
+
+# LLM mutator workspace (generated per run — not committed)
+.claude/skills/llm-mutate/tmp/
