@@ -254,7 +254,9 @@ Fill in the table using these formulas:
   output_tokens = output_chars / 4
   input_cost = (input_tokens / 1_000_000.0) * 3.0
   output_cost = (output_tokens / 1_000_000.0) * 15.0
-  total_cost = input_cost + output_cost + 0.0000017  (add the library read cost)
+  total_cost = input_cost + output_cost + 0.0000017  (library read cost — ~2,200 chars / 4 * $3/MTok;
+                                                      update this constant if lib/date_utils.rb grows
+                                                      significantly beyond ~2,200 characters)
 
 Format all cost values as 7 decimal places (e.g., $0.0000019).
 
