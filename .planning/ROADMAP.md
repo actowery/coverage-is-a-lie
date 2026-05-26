@@ -12,7 +12,7 @@ Six phases take this project from an empty repo to a recording-ready demo that p
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install`
+- [x] **Phase 1: Repo Foundation** - Public repo, locked Gemfile, `.mutant.yml`, and clean `bundle install` (completed 2026-05-26)
 - [ ] **Phase 2: Library and Weak Tests** - Six date/time functions plus a 100%-covered RSpec suite with deliberate boundary omissions
 - [ ] **Phase 3: mutant Baseline** - Traditional mutation run producing a kill-rate report with equivalence audit
 - [ ] **Phase 4: LLM Mutation Skill** - Full `/llm-mutate` Claude Code skill with generate/replay modes and cost reporting
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   - [x] 01-01-PLAN.md — Wave 0: human-verify Ruby 3.4.x is installed locally (precondition gate)
   - [x] 01-02-PLAN.md — Wave 1: write the seven Phase 1 source files (LICENSE, README.md, Gemfile, .ruby-version, .mutant.yml, .gitignore, .github/workflows/ci.yml)
   - [x] 01-03-PLAN.md — Wave 2: run `bundle install` to generate Gemfile.lock and create initial git commit on `main`
-  - [ ] 01-04-PLAN.md — Wave 3: create public GitHub repo at `actowery/coverage-is-a-lie`, push, and verify first CI run is green
+  - [x] 01-04-PLAN.md — Wave 3: create public GitHub repo at `actowery/coverage-is-a-lie`, push, and verify first CI run is green
 
 ### Phase 2: Library and Weak Tests
 **Goal**: All six `DateUtils` functions exist with non-trivial branching logic and the RSpec suite achieves 100% line and branch coverage while deliberately omitting boundary cases — the "green but broken" premise of the demo is proven and blind-review confirmed.
@@ -100,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo Foundation | 3/4 | In Progress|  |
+| 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
 | 2. Library and Weak Tests | 0/TBD | Not started | - |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
