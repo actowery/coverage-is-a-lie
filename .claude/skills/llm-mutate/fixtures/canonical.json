@@ -15,45 +15,45 @@
     {
       "id": "LM-DB-02",
       "function": "days_between",
-      "description": "Swaps argument order — returns negative days when dates are given in chronological order, exposing the missing .abs. A test calling days_between(jan1, jan8) would receive -7. The test suite never passes reversed dates, so this mutation survives.",
+      "description": "Replaces .to_i with Kernel#Integer() — for Date subtraction which returns a Rational, Integer(Rational(7,1)) and Rational(7,1).to_i are identical. A semantically equivalent refactor that no test will ever catch.",
       "original_line": "(end_date - start_date).to_i",
-      "mutated_line": "(start_date - end_date).to_i",
-      "expected_verdict": "survived",
-      "anchor_bug": true
-    },
-    {
-      "id": "LM-DB-03",
-      "function": "days_between",
-      "description": "Adds .abs to the result — a reviewer might think this fixes the reversed-date bug, but the weak test suite never passes reversed dates so the mutation survives undetected. The original intentionally omits .abs as its boundary bug.",
-      "original_line": "(end_date - start_date).to_i",
-      "mutated_line": "(end_date - start_date).to_i.abs",
+      "mutated_line": "Integer(end_date - start_date)",
       "expected_verdict": "survived",
       "anchor_bug": false
     },
     {
+      "id": "LM-DB-03",
+      "function": "days_between",
+      "description": "Adds .abs to the result — this is the Phase 2 anchor boundary bug pattern made explicit. A reviewer might think it fixes the reversed-date bug; the fix would in fact be correct. But the weak test suite never passes reversed dates, so the mutation (whether a bug or a fix) survives undetected.",
+      "original_line": "(end_date - start_date).to_i",
+      "mutated_line": "(end_date - start_date).to_i.abs",
+      "expected_verdict": "survived",
+      "anchor_bug": true
+    },
+    {
       "id": "LM-AB-01",
       "function": "add_business_days",
-      "description": "Inverts the direction check — uses n.negative? instead of n.positive? to assign direction 1, so positive n steps backward and negative n steps forward. This is the Phase 2 anchor boundary bug made explicit as a mutation.",
-      "original_line": "direction = n.positive? ? 1 : -1",
-      "mutated_line": "direction = n.negative? ? 1 : -1",
+      "description": "Advances past any initial weekend before the loop begins — a careless fix attempt for weekend-start inputs that changes behavior only when the start date is Saturday or Sunday. All test start dates are weekdays (Monday, Thursday, Friday), so this mutation survives. This is the Phase 2 anchor boundary bug pattern.",
+      "original_line": "current = date",
+      "mutated_line": "current = date.saturday? ? date + 1 : (date.sunday? ? date + 2 : date)",
       "expected_verdict": "survived",
       "anchor_bug": true
     },
     {
       "id": "LM-AB-02",
       "function": "add_business_days",
-      "description": "Removes the weekend skip entirely — increments steps regardless of Saturday/Sunday, so business-day counts include weekend days. Tests happen to use start dates and step counts that do not expose this difference in the specific expected values checked.",
+      "description": "Rewrites the weekend guard using De Morgan's law — `unless A || B` becomes `if !A && !B`. These forms are logically equivalent, so the mutation is undetectable by any test regardless of its inputs.",
       "original_line": "steps += 1 unless current.saturday? || current.sunday?",
-      "mutated_line": "steps += 1",
+      "mutated_line": "steps += 1 if !current.saturday? && !current.sunday?",
       "expected_verdict": "survived",
       "anchor_bug": false
     },
     {
       "id": "LM-AB-03",
       "function": "add_business_days",
-      "description": "Changes the weekend check to skip only Saturdays — Sundays count as business days. Tests only use Monday/Thursday/Friday start dates and never land a step count increment on a Sunday, so this mutation survives.",
+      "description": "Replaces the named Saturday/Sunday predicates with a numeric wday inclusion check — [6, 0].include?(current.wday) is semantically identical to current.saturday? || current.sunday? in all cases. Another equivalent mutation that survives all tests.",
       "original_line": "steps += 1 unless current.saturday? || current.sunday?",
-      "mutated_line": "steps += 1 unless current.saturday?",
+      "mutated_line": "steps += 1 unless [6, 0].include?(current.wday)",
       "expected_verdict": "survived",
       "anchor_bug": false
     },
