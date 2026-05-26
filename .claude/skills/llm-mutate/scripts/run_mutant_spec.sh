@@ -7,6 +7,11 @@ if [[ -d "$HOME/.local/share/mise/shims" ]]; then
   export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 
+if [[ ! -f "lib/date_utils.rb" ]]; then
+  echo "Error: run_mutant_spec.sh must be invoked from the project root (lib/date_utils.rb not found)" >&2
+  exit 2
+fi
+
 MUTANT_FILE="${1:-}"
 ORIG_BACKUP=".claude/skills/llm-mutate/tmp/date_utils.orig.rb"
 
@@ -23,11 +28,27 @@ fi
 mkdir -p .claude/skills/llm-mutate/tmp
 
 cp lib/date_utils.rb "$ORIG_BACKUP"
-trap 'cp "$ORIG_BACKUP" lib/date_utils.rb' EXIT
+trap '
+  if cp "$ORIG_BACKUP" lib/date_utils.rb 2>/dev/null; then
+    :
+  else
+    echo "FATAL: restore failed — lib/date_utils.rb may be mutated. Run: git checkout lib/date_utils.rb" >&2
+    exit 99
+  fi
+' EXIT
 
 cp "$MUTANT_FILE" lib/date_utils.rb
 
+set +e
 bundle exec rspec spec/date_utils_spec.rb --no-color --format progress > /dev/null 2>&1
 RSPEC_EXIT=$?
+set -e
+
+# Exit codes: 0 = all passing (mutation survived), 1 = test failure (mutation killed).
+# Exit code >= 2 means a load error, Bundler failure, or interpreter crash — surface it so
+# the caller does not silently classify the error as a killed mutation.
+if [[ $RSPEC_EXIT -ge 2 ]]; then
+  echo "ERROR: run_mutant_spec.sh: rspec exited with code $RSPEC_EXIT (not a test failure — possible load error or Bundler crash)" >&2
+fi
 
 exit $RSPEC_EXIT

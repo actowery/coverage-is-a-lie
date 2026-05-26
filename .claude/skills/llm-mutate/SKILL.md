@@ -37,9 +37,10 @@ This directory is gitignored. All mutation files are written here.
 
 **Step 3 — Validate all mutations with ruby -c.**
 For each mutation in the fixture:
-  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the line that
-     exactly matches `original_line` (after stripping leading whitespace) with `mutated_line`
-     (with the same leading whitespace as the original). If no line matches, log:
+  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the FIRST line
+     whose stripped content exactly matches `original_line` with `mutated_line` (preserving
+     the same leading whitespace as the original). If the line appears more than once, only
+     replace the first occurrence and log a WARNING. If no line matches, log:
      `SKIP <id>: original_line not found in lib/date_utils.rb` and continue.
   b. Write the mutated source to `tmp/mutants/<id>.rb`.
   c. Run: `ruby -c tmp/mutants/<id>.rb`
@@ -47,6 +48,7 @@ For each mutation in the fixture:
      - If exit code is 0: continue to Step 4.
 
 Track: invalid_count = number of mutations that failed ruby -c.
+       skip_count = number of mutations whose original_line was not found in the source.
 
 **Step 4 — Run the kill detector for each valid mutation.**
 For each mutation that passed ruby -c:
@@ -64,10 +66,11 @@ Write `tmp/llm-mutation-report.md` with this exact structure:
 **Fixture:** .claude/skills/llm-mutate/fixtures/canonical.json
 **Mode:** --replay (deterministic)
 **Total mutations:** {N}
+**Skipped (original_line not found):** {skip_count}
 **Invalid (ruby -c rejected):** {invalid_count}
 **Killed:** {killed_count}
 **Survived:** {survived_count}
-**Mutation score:** {killed_count}/{N-invalid_count} ({pct}%)
+**Mutation score:** {killed_count}/{N-invalid_count-skip_count} ({pct}%)
 
 ---
 
@@ -123,7 +126,7 @@ For each survived mutation, include:
 
 Mode: --replay (no LLM calls made during replay)
 Fixture generation cost: N/A — fixture is hand-curated (Phase 4 plan 02)
-RSpec runs: {N-invalid_count} executions of bundle exec rspec spec/date_utils_spec.rb
+RSpec runs: {N-invalid_count-skip_count} executions of bundle exec rspec spec/date_utils_spec.rb
 
 *Note: --generate mode logs estimated token cost. --replay mode has no LLM token usage.*
 ```
@@ -131,11 +134,14 @@ RSpec runs: {N-invalid_count} executions of bundle exec rspec spec/date_utils_sp
 Fill in all {placeholders} with actual counts from the run. Do not hardcode numbers — compute
 them from the actual run results.
 
+Compute {pct} as: `(killed_count.to_f / (N - invalid_count - skip_count) * 100).round(1)`.
+Format as one decimal place (e.g., `75.0`, `100.0`, `0.0`). If denominator is zero, use `N/A`.
+
 **Step 6 — Print summary to stdout.**
 Print:
 ```
 LLM Mutation Report complete.
-  Mutations: {N} total, {invalid_count} invalid, {killed_count} killed, {survived_count} survived
+  Mutations: {N} total, {skip_count} skipped, {invalid_count} invalid, {killed_count} killed, {survived_count} survived
   Score: {pct}%
   Report: tmp/llm-mutation-report.md
 ```
@@ -160,12 +166,16 @@ For each function, note:
 - Any comparison operators
 - Boundary conditions documented in comments (look for "Intentional bug:" annotations)
 
-**Step 2 — Set the budget.**
+**Step 2 — Prepare workspace.**
+Run: `mkdir -p tmp/generated`
+This directory is gitignored. All generated mutation files are written here.
+
+**Step 3 — Set the budget.**
 MAX_MUTATIONS = 20 (default). Distribute across 6 functions: target 3-4 mutations per function,
 stopping globally when the total reaches MAX_MUTATIONS. Do not exceed this cap regardless of
 how many functions remain. Log the distribution plan before generating.
 
-**Step 3 — Generate mutations using Meta ACH style.**
+**Step 4 — Generate mutations using Meta ACH style.**
 For each function (in order: days_between, add_business_days, leap_year?, age_in_years,
 next_occurrence_of_weekday, weeks_between), generate mutations up to budget:
 
@@ -183,26 +193,27 @@ next_occurrence_of_weekday, weeks_between), generate mutations up to budget:
   d. Assign a stable ID using scheme LM-{ABBREV}-G{NN} where ABBREV is the function abbreviation
      and NN is a two-digit counter (G prefix means generated, not from fixture).
 
-**Step 4 — Validate with ruby -c.**
+**Step 5 — Validate with ruby -c.**
 For each generated mutation:
-  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the matching
-     original_line with mutated_line (same leading whitespace).
+  a. Construct the mutated source by reading `lib/date_utils.rb` and replacing the FIRST line
+     whose stripped content exactly matches original_line with mutated_line (same leading whitespace).
+     If the line appears more than once, only replace the first occurrence and log a WARNING.
   b. Write the mutated source to `tmp/generated/<id>.rb`.
   c. Run: `ruby -c tmp/generated/<id>.rb`
      - Exit non-zero: log `INVALID <id>: rejected by ruby -c`. Increment invalid_count.
        Do NOT run RSpec for this mutation.
-     - Exit 0: proceed to Step 5.
+     - Exit 0: proceed to Step 6.
 
 Track: invalid_count, generated_count (attempted), valid_count (passed ruby -c).
 
-**Step 5 — Run the kill detector.**
+**Step 6 — Run the kill detector.**
 For each mutation that passed ruby -c:
   Run: `bash .claude/skills/llm-mutate/scripts/run_mutant_spec.sh tmp/generated/<id>.rb`
   - Exit 0: mutation SURVIVED.
   - Exit non-zero: mutation KILLED.
   Record verdict.
 
-**Step 6 — Render the report.**
+**Step 7 — Render the report.**
 Write `tmp/llm-mutation-report.md` using the same format as --replay mode, with these differences:
 
   - Header: `# LLM Mutation Report — Generate Mode`
@@ -211,7 +222,7 @@ Write `tmp/llm-mutation-report.md` using the same format as --replay mode, with 
   - Sections for only the generated mutations (not fixture mutations)
   - Include the estimated cost footer (see below)
 
-**Step 7 — Estimated cost footer.**
+**Step 8 — Estimated cost footer.**
 Append this section to `tmp/llm-mutation-report.md`:
 
 ```
@@ -243,11 +254,13 @@ Fill in the table using these formulas:
   output_tokens = output_chars / 4
   input_cost = (input_tokens / 1_000_000.0) * 3.0
   output_cost = (output_tokens / 1_000_000.0) * 15.0
-  total_cost = input_cost + output_cost + 0.0000017  (add the library read cost)
+  total_cost = input_cost + output_cost + 0.0000017  (library read cost — ~2,200 chars / 4 * $3/MTok;
+                                                      update this constant if lib/date_utils.rb grows
+                                                      significantly beyond ~2,200 characters)
 
 Format all cost values as 7 decimal places (e.g., $0.0000019).
 
-**Step 8 — Print summary.**
+**Step 9 — Print summary.**
 Print:
 ```
 LLM Mutation Report complete (--generate mode).
@@ -267,4 +280,6 @@ LLM Mutation Report complete (--generate mode).
   Multiple mutation runs leave the library in its original state.
 - `ruby -c` validation runs BEFORE the RSpec wrapper. Invalid Ruby is discarded silently
   (count logged) and does not appear as a survived or killed mutation.
-- All temporary files live under `tmp/` (gitignored). The fixture under `fixtures/` IS committed.
+- The kill detector stores its restore backup at `.claude/skills/llm-mutate/tmp/date_utils.orig.rb`
+  (gitignored). Mutation files written by the skill live under `tmp/mutants/` (--replay) or
+  `tmp/generated/` (--generate), also gitignored. The fixture under `fixtures/` IS committed.
