@@ -110,14 +110,14 @@ Branch: `demo/weak-tests`
 
 Command:
 ```
-grep -A 10 "M-LY-24\|M-LY-26" tmp/mutant-report.txt | head -25
+grep -A 15 "leap_year?" tmp/mutant-report.txt | head -25
 ```
 
 Or open `docs/mutant-audit.md` and navigate to the `leap_year?` section.
 
 Expected output (paraphrase — exact diff formatting varies):
 - A diff showing the century-guard being removed or disabled
-- The mutation marked alive
+- The mutation marked alive (prefixed with `evil:` in mutant's output format)
 
 Engineer cue: M-LY-24 disables the `% 100` guard using `if nil` — the guard never fires, so
 century years like 2000 are no longer excluded from the leap-year rule. The test suite tests
@@ -230,7 +230,7 @@ mutations — both survive, but they represent different failure modes. M-AB-25 
 flag with an operator swap so obvious any reviewer would catch it on first glance. LM-AB-01 adds
 a weekend-normalizer a developer might genuinely write. Both survive the same weak test suite for
 the same reason — weekday-only start dates. The LLM mutation is qualitatively more dangerous.
-Also note LM-WB-02: float division coercion (`/ 7.0`) — a mutation with no direct mutant
+Also note LM-WB-01: float division coercion (`/ 7.0`) — a mutation with no direct mutant
 counterpart, because it requires understanding Ruby's numeric type system.
 
 Leadership cue: Two tools, same codebase, different lenses. The LLM mutations look like code
