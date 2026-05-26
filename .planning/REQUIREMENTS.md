@@ -9,7 +9,7 @@
 
 - [ ] **REPO-01**: Repo is public on GitHub with an OSS license file present, so `mutant` can run under `--usage opensource`
 - [ ] **REPO-02**: `.ruby-version` pinned to a stable Ruby 3.4.x release
-- [ ] **REPO-03**: Gemfile declares locked versions for rspec, simplecov, mutant, mutant-rspec, and anthropic; `bundle install` runs clean
+- [ ] **REPO-03**: Gemfile declares locked versions for rspec, simplecov, mutant, and mutant-rspec; `bundle install` runs clean (no `anthropic` SDK — the LLM skill runs inside Claude Code, not as Ruby code)
 - [ ] **REPO-04**: `.mutant.yml` contains explicit `usage: opensource` key
 - [ ] **REPO-05**: README quickstart shows clone → bundle install → run-the-demo flow
 
@@ -43,14 +43,14 @@
 ### LLM Mutation Skill (`/llm-mutate`)
 
 - [ ] **SKILL-01**: Skill lives at `.claude/skills/llm-mutate/SKILL.md` with valid frontmatter; invokable as `/llm-mutate`
-- [ ] **SKILL-02**: Skill supports two modes via arg: `/llm-mutate --generate` (calls Anthropic API) and `/llm-mutate --replay` (reads committed fixture). The demo uses `--replay`.
-- [ ] **SKILL-03**: Generate mode uses the official `anthropic` Ruby SDK with Claude Sonnet 4.6 (`claude-sonnet-4-6`) and prompt caching for the system prompt
+- [ ] **SKILL-02**: Skill supports two modes via arg: `/llm-mutate --generate` (Claude generates mutations live in the current session) and `/llm-mutate --replay` (reads committed fixture). The demo uses `--replay`.
+- [ ] **SKILL-03**: Skill is pure SKILL.md instructions — no external API client, no API key. Claude Code is the LLM runtime; the skill instructs Claude to generate mutations using its Read/Write/Bash tools in the session. Model is whatever the session is configured to use (Sonnet 4.6 recommended).
 - [ ] **SKILL-04**: Mutations are semantically meaningful per Meta's ACH approach — generated as "what a careless developer would write" descriptions, not exhaustive operator substitutions
 - [ ] **SKILL-05**: Pipeline validates each mutation with `ruby -c` and discards non-compilable candidates with a logged count
-- [ ] **SKILL-06**: Pipeline enforces a `MAX_MUTATIONS` cap (default 20) to bound LLM cost
+- [ ] **SKILL-06**: Generate mode enforces a `MAX_MUTATIONS` cap (default 20) to bound session token usage
 - [ ] **SKILL-07**: For each surviving mutation candidate, the skill writes the mutated file to `tmp/mutants/<id>.rb`, runs the RSpec wrapper, and classifies killed (exit 0) vs survived (exit 1)
 - [ ] **SKILL-08**: Output report `tmp/llm-mutation-report.md` includes plain-English mutation description, diff, kill/survive verdict, and an aggregate mutation score
-- [ ] **SKILL-09**: Generate mode reports token usage and estimated cost per run
+- [ ] **SKILL-09**: Report includes an estimated-cost footer derived from approximate token counts (input/output bytes × Sonnet 4.6 rates) — labeled "estimated" since live token metering is not available from inside a skill
 - [ ] **SKILL-10**: A committed fixture file lets `--replay` reproduce the canonical demo output identically across machines
 - [ ] **SKILL-11**: Skill includes a thin `scripts/run_mutant_spec.sh` wrapper that exits 0 if RSpec passes (mutation killed) and 1 if it fails (mutation survived)
 

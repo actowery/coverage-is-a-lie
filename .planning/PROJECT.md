@@ -54,7 +54,7 @@ A viewer watches the demo and immediately understands that coverage metrics can 
 - **Tech stack — Ruby:** Demo language locked to Ruby for ecosystem fit with PE audience and access to `mutant` gem for baseline comparison.
 - **Test framework — RSpec:** Most expressive matchers and best integration with `mutant` and SimpleCov; also strongest narrative power for showing weak-looking-strong tests.
 - **LLM model — Claude Sonnet 4.6:** Balance of mutation quality and cost. The skill should be tunable but Sonnet is the default.
-- **Mutator packaging — Claude Code skill:** Reusable artifact, not just an in-repo script. Higher leverage for the audience to adopt.
+- **Mutator packaging — Claude Code skill (no external API key):** The skill is pure SKILL.md instructions; Claude Code itself is the LLM runtime. No `anthropic` Ruby SDK, no API key — runs on the user's existing Claude Code session. Required because Adrian's org does not freely issue API keys, and this also makes the demo more reproducible for any viewer with Claude Code.
 - **Quality over speed:** No deadline. Optimize for a polished, clear demo that travels well across teams.
 
 ## Key Decisions
@@ -69,6 +69,7 @@ A viewer watches the demo and immediately understands that coverage metrics can 
 | Date/time utility library as demo subject | Small surface, pure logic, edge-case-rich — mutations land visibly | — Pending |
 | Two-act narrative (green-but-broken → mutations expose) | Strongest pedagogical arc for mixed audience; carries both engineers and leadership | — Pending |
 | Mutator delivered as a Claude Code skill | Reusable across repos, higher leverage than an in-repo script | — Pending |
+| Skill runs inside the Claude Code session (no external API key) | Adrian's org doesn't freely issue Anthropic API keys; this also makes the demo runnable by any Claude Code user without auth setup | — Pending |
 | Sonnet 4.6 as the default LLM for the mutator | Best quality/cost balance for semantically meaningful mutations | — Pending |
 | Recording-ready repo + script, not a recorded video | Adrian records; project produces the artifacts that make recording easy | — Pending |
 

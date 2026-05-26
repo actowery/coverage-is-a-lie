@@ -129,15 +129,19 @@ Based on research, the build order is hard-constrained by dependencies. The libr
 
 ---
 
-## Open Decisions Needing User Input
+## Resolved Decisions (post-research)
 
-These cross-cutting decisions must be resolved before or during Phase 1.
+| Decision | Resolution | Why |
+|----------|------------|-----|
+| **Repo visibility** | Public + `--usage opensource` | Free; demo is shareable; no commercial license needed |
+| **Fixture replay invocation** | Skill arg: `/llm-mutate --replay` vs `--generate` | Visible to the audience during the demo; presenter doesn't think about env vars |
+| **LLM runtime for the skill** | Claude Code session (no external API client, no Anthropic API key) | Adrian's org doesn't freely issue API keys; this also makes the demo runnable by any Claude Code user. STACK.md's earlier `anthropic` Ruby SDK recommendation is **superseded** by ARCHITECTURE.md's "Claude is the runtime" design. Drop the `anthropic` gem from Gemfile. |
+
+## Open Decisions
 
 | Decision | Options | Blocker for |
 |----------|---------|-------------|
-| **Repo visibility: public or private?** | Public (use `--usage opensource`, free) vs Private (purchase commercial subscription, $250/year) | Phase 1 — mutant cannot run without this resolved |
 | **Equivalent-mutant strategy** | (a) Design library to avoid them + label in output, vs (b) Build optional LLM equivalence-check step (doubles cost), vs (c) Manual audit only | Phase 2 (library design) and Phase 4 (skill design) |
-| **Fixture replay invocation: how does the presenter trigger it?** | `--replay` flag in shell invocation vs argument passed to skill in Claude Code chat vs separate `/llm-mutate-replay` skill | Phase 4 (skill architecture) |
 
 ---
 
