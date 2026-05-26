@@ -65,17 +65,19 @@ Decimal phases appear between their surrounding integers in numeric order.
   - [x] 03-03-PLAN.md — Wave 3: classify all surviving mutants, write docs/mutant-audit.md (MUT-05)
 
 ### Phase 4: LLM Mutation Skill
-**Goal**: `/llm-mutate --generate` calls the Anthropic API and produces semantically meaningful mutations with plain-English descriptions; `/llm-mutate --replay` reads a committed fixture and reproduces the canonical demo output identically on any machine — the skill is demo-safe and cost-bounded.
+**Goal**: `/llm-mutate --replay` reads a committed fixture and reproduces the canonical demo output identically on any machine; `/llm-mutate --generate` instructs Claude to produce semantically meaningful mutations live in the session, respecting a MAX_MUTATIONS cap — the skill is demo-safe, cost-bounded, and invokable without any API key.
 **Depends on**: Phase 3
 **Requirements**: SKILL-01, SKILL-02, SKILL-03, SKILL-04, SKILL-05, SKILL-06, SKILL-07, SKILL-08, SKILL-09, SKILL-10, SKILL-11
 **Success Criteria** (what must be TRUE):
   1. `/llm-mutate --replay` produces identical `tmp/llm-mutation-report.md` output across three consecutive runs
-  2. `/llm-mutate --generate` calls the Anthropic API, respects the `MAX_MUTATIONS` cap, and logs token usage and estimated cost
+  2. `/llm-mutate --generate` respects the `MAX_MUTATIONS` cap (default 20) and logs estimated token cost using $3/$15-per-MTok Sonnet 4.6 rates
   3. The report includes at least one mutation with a plain-English description, a diff, and a kill/survive verdict for each of the six library functions
   4. Non-compilable mutation candidates are rejected via `ruby -c` and their count is logged; they do not appear as survivors
   5. The skill is invokable as `/llm-mutate` inside a Claude Code session without any manual file editing
-**Plans**: TBD
-**Research note**: Plan this phase with `/gsd-plan-phase --research-phase 4` — prompt architecture, fixture format, and RSpec exit-convention wiring are the high-risk areas requiring deeper research before implementation begins.
+**Plans**: 3 plans
+  - [x] 04-01-PLAN.md — Wave 1: run_mutant_spec.sh kill detector + SKILL.md skeleton + README + .gitignore update
+  - [ ] 04-02-PLAN.md — Wave 2: canonical.json fixture (20 mutations, all 6 functions, 6 anchor bugs) + SKILL.md --replay mode
+  - [ ] 04-03-PLAN.md — Wave 3: SKILL.md --generate mode + cost estimation + end-to-end replay determinism verification
 
 ### Phase 5: Comparison and Narrative
 **Goal**: `docs/comparison.md` maps mutations from both tools to the same six functions; `demo/weak-tests` and `demo/fixed-tests` branches exist with committed report artifacts; the README, shot list, and narration script give a presenter everything needed to record the demo without improvising.
@@ -109,6 +111,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Repo Foundation | 4/4 | Complete   | 2026-05-26 |
 | 2. Library and Weak Tests | 3/3 | Complete   | 2026-05-26 |
 | 3. mutant Baseline | 3/3 | Complete   | 2026-05-26 |
-| 4. LLM Mutation Skill | 0/TBD | Not started | - |
+| 4. LLM Mutation Skill | 1/3 | In Progress|  |
 | 5. Comparison and Narrative | 0/TBD | Not started | - |
 | 6. End-to-End Validation | 0/TBD | Not started | - |
