@@ -23,7 +23,14 @@ fi
 mkdir -p .claude/skills/llm-mutate/tmp
 
 cp lib/date_utils.rb "$ORIG_BACKUP"
-trap 'cp "$ORIG_BACKUP" lib/date_utils.rb' EXIT
+trap '
+  if cp "$ORIG_BACKUP" lib/date_utils.rb 2>/dev/null; then
+    :
+  else
+    echo "FATAL: restore failed — lib/date_utils.rb may be mutated. Run: git checkout lib/date_utils.rb" >&2
+    exit 99
+  fi
+' EXIT
 
 cp "$MUTANT_FILE" lib/date_utils.rb
 
