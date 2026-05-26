@@ -20,6 +20,10 @@ RSpec.describe DateUtils do
     it "returns 366 for a full leap year" do
       expect(DateUtils.days_between(Date.new(2024, 1, 1), Date.new(2025, 1, 1))).to eq(366)
     end
+
+    it "returns a positive count for reversed date order" do
+      expect(DateUtils.days_between(Date.new(2024, 1, 8), Date.new(2024, 1, 1))).to eq(7)
+    end
   end
 
   describe ".add_business_days" do
@@ -57,6 +61,10 @@ RSpec.describe DateUtils do
       it "subtracts 3 business days from Monday (crosses weekend back to Wednesday)" do
         expect(DateUtils.add_business_days(monday, -3)).to eq(Date.new(2024, 1, 3))
       end
+
+      it "subtracts 1 business day from Saturday (treats Saturday as after Friday)" do
+        expect(DateUtils.add_business_days(Date.new(2024, 1, 13), -1)).to eq(Date.new(2024, 1, 12))
+      end
     end
   end
 
@@ -84,6 +92,12 @@ RSpec.describe DateUtils do
     context "when year is divisible by 100" do
       it "returns false for 1900" do
         expect(DateUtils.leap_year?(1900)).to be_falsy
+      end
+    end
+
+    context "when year is divisible by 400" do
+      it "returns true for 2000 (400-year Gregorian exception)" do
+        expect(DateUtils.leap_year?(2000)).to be_truthy
       end
     end
   end
@@ -114,6 +128,11 @@ RSpec.describe DateUtils do
         expect(DateUtils.age_in_years(Date.new(2000, 1, 1), as_of: Date.new(2024, 1, 1))).to eq(24)
       end
     end
+
+    it "handles a Feb 29 birthday in a non-leap as_of year" do
+      leap_birthday = Date.new(2000, 2, 29)
+      expect(DateUtils.age_in_years(leap_birthday, as_of: Date.new(2025, 2, 28))).to eq(25)
+    end
   end
 
   describe ".next_occurrence_of_weekday" do
@@ -135,6 +154,11 @@ RSpec.describe DateUtils do
     it "finds the next Friday from a Tuesday" do
       expect(DateUtils.next_occurrence_of_weekday(Date.new(2024, 1, 9), 5)).to eq(Date.new(2024, 1, 12))
     end
+
+    it "returns 7 days later when from_date is already on the target weekday" do
+      monday = Date.new(2024, 1, 8)
+      expect(DateUtils.next_occurrence_of_weekday(monday, 1)).to eq(Date.new(2024, 1, 15))
+    end
   end
 
   describe ".weeks_between" do
@@ -154,6 +178,10 @@ RSpec.describe DateUtils do
 
     it "returns 52 for approximately one year" do
       expect(DateUtils.weeks_between(jan1, Date.new(2024, 12, 30))).to eq(52)
+    end
+
+    it "returns a positive count for reversed date order" do
+      expect(DateUtils.weeks_between(Date.new(2024, 1, 15), Date.new(2024, 1, 1))).to eq(2)
     end
   end
 end

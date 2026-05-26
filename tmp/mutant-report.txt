@@ -10,11 +10,11 @@ Requires:        ["date_utils"]
 Operators:       light
 MutationTimeout: 5
 Subjects:        6
-All-Tests:       28
-Available-Tests: 28
-Selected-Tests:  28
-Tests/Subject:   4.67 avg
-Mutations:       259
+All-Tests:       34
+Available-Tests: 34
+Selected-Tests:  34
+Tests/Subject:   5.67 avg
+Mutations:       341
 Uncovered mutations detected, exiting nonzero!
 Uncovered mutations detected, exiting nonzero!
 Alive mutations require one of two actions:
@@ -23,15 +23,15 @@ A) Keep the mutated code: Your tests specify the correct semantics,
 B) Add a missing test: The original code is correct, but the tests
    do not verify the behavior the mutation removed.
 DateUtils#add_business_days:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:20
-tests: 28, runtime: 1.74s, killtime: 0.94s
-evil:DateUtils#add_business_days:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:20:e51f5
+tests: 34, runtime: 1.97s, killtime: 0.99s
+evil:DateUtils#add_business_days:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:20:462e9
 -----------------------
-@@ -1,19 +1,19 @@
+@@ -1,19 +1,17 @@
  def add_business_days(date, n)
 -  if n.zero?
-+  if self.zero?
-     return date
-   end
+-    return date
+-  end
++  return date
    direction = if n.positive?
      1
    else
@@ -49,69 +49,77 @@ evil:DateUtils#add_business_days:/Users/adrian.towery/Projects/mutation-testing-
  end
 -----------------------
 (82 more alive mutation(s), use `mutant session subject DateUtils#add_business_days` to see all details)
-DateUtils#age_in_years:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:49
-tests: 28, runtime: 1.19s, killtime: 0.62s
-evil:DateUtils#age_in_years:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:49:e57e1
+DateUtils#age_in_years:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:46
+tests: 34, runtime: 2.21s, killtime: 1.02s
+evil:DateUtils#age_in_years:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:46:ef117
 -----------------------
-@@ -1,7 +1,3 @@
+@@ -1,12 +1,3 @@
  def age_in_years(birthdate, as_of:)
 -  years = as_of.year - birthdate.year
--  if ([as_of.month, as_of.day] <=> [birthdate.month, birthdate.day]) < 0
+-  bday = if birthdate.month == 2 && birthdate.day == 29
+-    28
+-  else
+-    birthdate.day
+-  end
+-  if ([as_of.month, as_of.day] <=> [birthdate.month, bday]) < 0
 -    years -= 1
 -  end
 -  years
-+  super
- end
------------------------
-(56 more alive mutation(s), use `mutant session subject DateUtils#age_in_years` to see all details)
-DateUtils#days_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:11
-tests: 28, runtime: 0.31s, killtime: 0.17s
-evil:DateUtils#days_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:11:ed479
------------------------
-@@ -1,3 +1,3 @@
- def days_between(start_date, end_date)
--  (end_date - start_date).to_i
 +  raise
  end
 -----------------------
-(13 more alive mutation(s), use `mutant session subject DateUtils#days_between` to see all details)
-DateUtils#leap_year?:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:38
-tests: 28, runtime: 1.08s, killtime: 0.58s
-evil:DateUtils#leap_year?:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:38:20ad8
+(98 more alive mutation(s), use `mutant session subject DateUtils#age_in_years` to see all details)
+DateUtils#days_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:11
+tests: 34, runtime: 0.35s, killtime: 0.18s
+evil:DateUtils#days_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:11:e13c8
+-----------------------
+@@ -1,3 +1,3 @@
+ def days_between(start_date, end_date)
+-  (end_date - start_date).to_i.abs
++  super
+ end
+-----------------------
+(15 more alive mutation(s), use `mutant session subject DateUtils#days_between` to see all details)
+DateUtils#leap_year?:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:37
+tests: 34, runtime: 1.70s, killtime: 0.87s
+evil:DateUtils#leap_year?:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:37:3e4fd
 -----------------------
 @@ -1,9 +1,3 @@
  def leap_year?(year)
 -  unless (year % 4).zero?
 -    return false
 -  end
--  if (year % 100).zero?
+-  if (year % 100).zero? && !(year % 400).zero?
 -    return false
 -  end
 -  true
 +  raise
  end
 -----------------------
-(51 more alive mutation(s), use `mutant session subject DateUtils#leap_year?` to see all details)
-DateUtils#next_occurrence_of_weekday:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:60
-tests: 28, runtime: 0.59s, killtime: 0.31s
-evil:DateUtils#next_occurrence_of_weekday:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:60:15f2b
+(75 more alive mutation(s), use `mutant session subject DateUtils#leap_year?` to see all details)
+DateUtils#next_occurrence_of_weekday:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:56
+tests: 34, runtime: 0.96s, killtime: 0.50s
+evil:DateUtils#next_occurrence_of_weekday:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:56:2cebd
 -----------------------
-@@ -1,4 +1,3 @@
+@@ -1,7 +1,3 @@
  def next_occurrence_of_weekday(from_date, weekday)
 -  days_ahead = (weekday - from_date.wday) % 7
+-  if days_ahead.zero?
+-    days_ahead = 7
+-  end
 -  from_date + days_ahead
 +  raise
  end
 -----------------------
-(27 more alive mutation(s), use `mutant session subject DateUtils#next_occurrence_of_weekday` to see all details)
-DateUtils#weeks_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:69
-tests: 28, runtime: 0.36s, killtime: 0.19s
-evil:DateUtils#weeks_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:69:0ed82
+(41 more alive mutation(s), use `mutant session subject DateUtils#next_occurrence_of_weekday` to see all details)
+DateUtils#weeks_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:66
+tests: 34, runtime: 0.50s, killtime: 0.21s
+evil:DateUtils#weeks_between:/Users/adrian.towery/Projects/mutation-testing-example/lib/date_utils.rb:66:6984c
 -----------------------
 @@ -1,3 +1,3 @@
  def weeks_between(start_date, end_date)
 -  days_between(start_date, end_date) / 7
-+  days_between(start_date, end_date)
++  nil
  end
 -----------------------
 (18 more alive mutation(s), use `mutant session subject DateUtils#weeks_between` to see all details)
@@ -125,17 +133,17 @@ Requires:        ["date_utils"]
 Operators:       light
 MutationTimeout: 5
 Subjects:        6
-All-Tests:       28
-Available-Tests: 28
-Selected-Tests:  28
-Tests/Subject:   4.67 avg
-Mutations:       259
-Results:         259
+All-Tests:       34
+Available-Tests: 34
+Selected-Tests:  34
+Tests/Subject:   5.67 avg
+Mutations:       341
+Results:         341
 Kills:           6
-Alive:           253
+Alive:           335
 Timeouts:        0
-Runtime:         0.43s
-Killtime:        2.81s
-Efficiency:      652.58%
-Mutations/s:     601.67
-Coverage:        2.31%
+Runtime:         0.69s
+Killtime:        3.77s
+Efficiency:      541.95%
+Mutations/s:     490.66
+Coverage:        1.75%
