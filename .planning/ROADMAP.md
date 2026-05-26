@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
   - [x] 01-01-PLAN.md — Wave 0: human-verify Ruby 3.4.x is installed locally (precondition gate)
   - [x] 01-02-PLAN.md — Wave 1: write the seven Phase 1 source files (LICENSE, README.md, Gemfile, .ruby-version, .mutant.yml, .gitignore, .github/workflows/ci.yml)
-  - [ ] 01-03-PLAN.md — Wave 2: run `bundle install` to generate Gemfile.lock and create initial git commit on `main`
+  - [x] 01-03-PLAN.md — Wave 2: run `bundle install` to generate Gemfile.lock and create initial git commit on `main`
   - [ ] 01-04-PLAN.md — Wave 3: create public GitHub repo at `actowery/coverage-is-a-lie`, push, and verify first CI run is green
 
 ### Phase 2: Library and Weak Tests
@@ -100,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo Foundation | 2/4 | In Progress|  |
+| 1. Repo Foundation | 3/4 | In Progress|  |
 | 2. Library and Weak Tests | 0/TBD | Not started | - |
 | 3. mutant Baseline | 0/TBD | Not started | - |
 | 4. LLM Mutation Skill | 0/TBD | Not started | - |
