@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "timeout"
+
 if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start do
@@ -11,3 +13,9 @@ end
 
 require "date"
 require_relative "../lib/date_utils"
+
+RSpec.configure do |config|
+  config.around(:each) do |example|
+    Timeout.timeout(5) { example.run }
+  end
+end
