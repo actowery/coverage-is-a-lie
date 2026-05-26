@@ -271,4 +271,6 @@ LLM Mutation Report complete (--generate mode).
   Multiple mutation runs leave the library in its original state.
 - `ruby -c` validation runs BEFORE the RSpec wrapper. Invalid Ruby is discarded silently
   (count logged) and does not appear as a survived or killed mutation.
-- All temporary files live under `tmp/` (gitignored). The fixture under `fixtures/` IS committed.
+- The kill detector stores its restore backup at `.claude/skills/llm-mutate/tmp/date_utils.orig.rb`
+  (gitignored). Mutation files written by the skill live under `tmp/mutants/` (--replay) or
+  `tmp/generated/` (--generate), also gitignored. The fixture under `fixtures/` IS committed.
