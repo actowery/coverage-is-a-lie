@@ -1,1 +1,5 @@
 usage: opensource
+includes:
+  - lib
+requires:
+  - date_utils
