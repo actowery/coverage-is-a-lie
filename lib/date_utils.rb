@@ -3,7 +3,7 @@
 require "date"
 
 module DateUtils
-  module_function
+  extend self
 
   # Returns the number of days between two dates as a signed integer.
   # Positive when end_date > start_date; negative when reversed.
