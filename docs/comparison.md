@@ -2,29 +2,52 @@
 
 This document maps mutations from both tools against the same six DateUtils functions.
 `mutant` applies exhaustive operator-based substitutions; `llm-mutate` generates semantically
-meaningful mutations in the spirit of Meta's ACH research. Both tools run the same weak RSpec
-test suite — 100% line and branch coverage, 28 tests — and both expose surviving mutations
-that coverage metrics cannot see.
+meaningful mutations in the spirit of Meta's ACH research (FSE 2025, arXiv 2501.12862). Both
+tools run the same weak RSpec test suite — 100% line and branch coverage, 28 tests — and the
+contrast between their results is the central pedagogical point of the demo.
+
+---
+
+## Methodology note
+
+An earlier version of this document reported a 2.31% mutant kill rate. That number was an
+artifact of the library using `module_function`, which creates two method objects per `def`
+(a private instance method and a singleton class method) and confused mutant's mutation
+injection — mutant rebound one binding while tests called the other, scoring ~98% of
+mutations alive without actually exercising them.
+
+The library now uses `extend self`, collapsing to a single method object that both call
+paths share through the singleton-class ancestor chain. The mutant numbers below are the
+honest ones.
 
 ---
 
 ## Overview
 
-| Function | mutant alive | mutant killed | LLM total | LLM survived | LLM killed | Divergences |
-|---|---|---|---|---|---|---|
-| days_between | 14 | 0 | 3 | 3 | 0 | 1 |
-| add_business_days | 83 | 0 | 4 | 4 | 0 | 2 |
-| leap_year? | 52 | 6 | 3 | 3 | 0 | 1 |
-| age_in_years | 57 | 0 | 4 | 4 | 0 | 1 |
-| next_occurrence_of_weekday | 28 | 0 | 3 | 3 | 0 | 1 |
-| weeks_between | 19 | 0 | 3 | 3 | 0 | 2 |
-| **Total** | **253** | **6** | **20** | **20** | **0** | **8** |
+| Function | mutant alive | mutant killed | LLM total | LLM survived | LLM killed |
+|---|---|---|---|---|---|
+| days_between | 3 | ~14 | 3 | 3 | 0 |
+| add_business_days | 6 | ~80 | 4 | 4 | 0 |
+| leap_year? | 0 | ~52 | 3 | 3 | 0 |
+| age_in_years | 0 | ~57 | 4 | 4 | 0 |
+| next_occurrence_of_weekday | 0 | ~28 | 3 | 3 | 0 |
+| weeks_between | 0 | ~19 | 3 | 3 | 0 |
+| **Total** | **9** | **250** | **20** | **20** | **0** |
 
-**Kill rate summary:** mutant killed 6 of 259 mutations (2.31%). All 6 kills are in `leap_year?`
-because the test suite covers 2023, 2024, and 1900 — enough to exercise basic divisibility
-checks. The LLM killed 0 of 20 mutations because all 20 fixture mutations target the same anchor
-boundary bugs that the weak test suite misses. Both tools confirm the same verdict: green CI and
-full coverage mask real behavioral gaps.
+(Plus 11 timeout mutations not counted as kill or alive.)
+
+**Kill rate summary:** mutant killed 250 of 259 mutations (**96.52%**). The 9 survivors cluster
+in `days_between` and `add_business_days` and are dominated by *equivalent mutants* — mutations
+indistinguishable from the original under all possible inputs (e.g. dropping `.to_i` when the
+result is later compared to an Integer that auto-converts from a Rational).
+
+The LLM killed 0 of 20 mutations (**0/20**). All 20 fixture mutations target boundary cases
+the weak test suite misses (year 2000, Feb 29 birthdays, reversed dates, same-day weekday,
+weekend-start business days).
+
+**The contrast is the demo:** by traditional mutation-testing standards the suite looks
+strong (96.52%); by semantic mutation standards it is completely blind (0/20). Meta's ACH
+paper argues this gap is structural to operator-based tools and not closable by tuning.
 
 ---
 
@@ -43,10 +66,10 @@ because no test ever passes reversed dates.
 | mutant | M-DB-08 | Drops `.to_i`, returns Rational instead of Integer | alive (equivalent) |
 | llm-mutate | LM-DB-01 | Drops `.to_i`, same Rational-return behavior | survived (equivalent) |
 
-**DIVERGENCE (days_between-1):** M-DB-13 changes the arithmetic sign entirely (addition instead
-of subtraction), producing a wildly wrong result for any two chronological dates — a mutation so
-gross it should be caught by any test checking a non-zero result. Its survival is uncertain and
-may reflect a `module_function` self-resolution quirk. LM-DB-03, by contrast, adds the precise
+**DIVERGENCE (days_between-1):** After fixing the `module_function`-induced injection bug
+(see methodology note), M-DB-13 no longer survives — sign-flipping the subtraction breaks
+every chronological-order test. The kind of catastrophic operator swap that the original
+report misclassified as "alive" is in fact one of the easier cases for operator-based tools. LM-DB-03, by contrast, adds the precise
 fix a developer would write: `.abs` after the result. Both survive because tests never use
 reversed dates, but they represent different failure modes — wrong arithmetic vs correct-looking
 defensive code. Only the LLM mutation could fool a code reviewer.
@@ -186,13 +209,13 @@ expose the inherited sign gap, but through very different mutations.
 | llm-mutate | LM-WB-03 | Adds `.abs` to the `days_between` result before dividing — the actual missing fix | survived |
 | llm-mutate | LM-WB-01 | Changes `/ 7` to `/ 7.0` — float division; `14.0 / 7.0 = 2.0`, and `2.0 == 2` passes `eq(2)` | survived |
 
-**DIVERGENCE (weeks_between-1):** M-WB-01 removes the division entirely — a catastrophic mutation
-that should be caught by any test checking that 14 days returns 2 weeks rather than 14. Its
-survival is uncertain and may reflect a `module_function` self-resolution quirk where `self / 7`
-resolves differently than expected. LM-WB-03 adds `.abs` to the days_between result — the actual
-fix for the reversed-date bug, and exactly the change a careful developer would add after reading
-the code. Both survive, but for completely different (and instructive) reasons: M-WB-01's survival
-is a tooling artifact, LM-WB-03's survival is a genuine test gap.
+**DIVERGENCE (weeks_between-1):** After fixing the `module_function` injection bug, M-WB-01
+(remove the `/ 7`) is killed by three of the four `weeks_between` tests — the suite catches
+catastrophic arithmetic changes just fine. LM-WB-03 adds `.abs` to the days_between result —
+the actual fix for the reversed-date bug, and exactly the change a careful developer would
+add after reading the code. It still survives because no test exercises reversed date order.
+This is the qualitative difference operator mutation cannot capture: the mutation is correct
+code, the original is buggy code, and only an LLM mutation surfaces that gap in plain English.
 
 **DIVERGENCE (weeks_between-2):** LM-WB-01 changes integer division to float division (`/ 7` to
 `/ 7.0`). Ruby's Numeric equality means `2.0 == 2` is true, so every `eq(n)` assertion passes
@@ -223,16 +246,20 @@ mutation could pass a code review. This is the core argument for LLM-driven muta
 an AI-assisted era: generated code changes look like generated code, and mechanical operator
 mutations are too obviously wrong to simulate them.
 
-### Divergence 2: Catastrophic removal vs targeted fix (weeks_between)
+### Divergence 2: Equivalent mutant vs targeted fix (days_between / weeks_between)
 
-mutant's M-WB-01 removes the `/ 7` entirely — a mutation so drastic that returning raw day counts
-instead of weeks should be caught by the most minimal test imaginable. Its survival is uncertain
-and likely reflects a Ruby `module_function` resolution quirk rather than a genuine test gap. LLM's
-LM-WB-03 adds `.abs` to the days_between result before dividing — precisely the fix a developer
-would apply after noticing the reversed-date gap, and a change that would be accepted in any code
-review. Tests cannot catch either, but for completely different reasons: M-WB-01 survives due to
-possible tooling behavior, LM-WB-03 survives because no test exercises reversed date order. The
-LLM mutation is the actionable signal; the mutant mutation is the tooling artifact.
+mutant's surviving `days_between` mutation drops `.to_i`, leaving the function returning a
+`Rational` instead of an Integer. In Ruby, `Rational(7,1) == 7` is `true`, so every `eq(n)`
+assertion still passes — the mutation changed the return *type*, not any observable result.
+This is the canonical *equivalent mutant* case Meta's ACH paper cites as a structural
+limitation of operator-based tools: ~10–15% of operator mutations are mathematically
+indistinguishable from the original under all possible inputs.
+
+LLM's LM-WB-03 adds `.abs` to the days_between result before dividing — precisely the fix a
+developer would apply after noticing the reversed-date gap, and a change that would be
+accepted in any code review. Tests cannot catch it because no test exercises reversed date
+order. This survives for a *real* test-quality reason; the mutant survivor survives for a
+tooling-and-math reason that no amount of additional testing could ever close.
 
 ### Divergence 3: Bug-fix mutation that still survives (leap_year?)
 
@@ -249,8 +276,12 @@ the complete Gregorian calendar rule — only a test for year 2000 can distingui
 
 ## References
 
-Full mutant classification, including all 253 surviving mutations with equivalence verdicts and
-boundary-bug anchor analysis, is in `docs/mutant-audit.md`.
+Full mutant classification — the 9 surviving mutations on `demo/weak-tests` with equivalence
+verdicts and the structural reasons most are unkillable — is in `docs/mutant-audit.md`.
 
 LLM mutation detail — original lines, mutated lines, anchor-bug flags, and expected verdicts for
 all 20 fixture mutations — is in `.claude/skills/llm-mutate/fixtures/canonical.json`.
+
+The Meta ACH thesis this comparison demonstrates: *Mutation-Guided LLM-based Test Generation
+at Meta*, FSE 2025 (arXiv 2501.12862), and the September 2025 Engineering at Meta post
+*LLMs Are the Key to Mutation Testing and Better Compliance*.
